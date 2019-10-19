@@ -24,11 +24,14 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 ## Authors
 
-* **Kotus** - *Initial work* - [Kotus](https://github.com/Kotus-s)
-* **Zaros** - *Initial work* - [Zaros](https://github.com/ZarosLive)
-* **Steinman** - *Initial work* - [Steinman](https://github.com/Steinman)
-* **Stim** - *Initial work* - [Stim](https://github.com/)
-* **Taink** - *Initial work* - [Taink](https://github.com/Taink)
+* **Aiekillu** - *Project instigator* - [Aiekillu](https://github.com/)
+* **Pantoufl** - *Project instigator* - [Pantoufl](https://github.com/)
+
+* **Steinman** - *Game designer and level designer* - [Steinman](https://github.com/Steinman)
+* **Kotus** - *Developer* - [Kotus](https://github.com/Kotus-s)
+* **Zaros** - *Developer* - [Zaros](https://github.com/ZarosLive)
+* **Stim** - *Developer* - [Stim](https://github.com/)
+* **Taink** - *Developer* - [Taink](https://github.com/Taink)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
