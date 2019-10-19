@@ -26,7 +26,6 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 * **Aiekillu** - *Project instigator* - [Aiekillu](https://github.com/)
 * **Pantoufl** - *Project instigator* - [Pantoufl](https://github.com/)
-
 * **Steinman** - *Game designer and level designer* - [Steinman](https://github.com/Steinman)
 * **Kotus** - *Developer* - [Kotus](https://github.com/Kotus-s)
 * **Zaros** - *Developer* - [Zaros](https://github.com/ZarosLive)
