@@ -1,6 +1,6 @@
 # Onset - Roleplay Framework
 
-[![HitCount](http://hits.dwyl.io/Kotus-s/onset-roleplay-framework.svg)](http://hits.dwyl.io/Kotus-s/onset-roleplay-framework) ![GitHub](https://img.shields.io/github/license/Kotus-s/onset-roleplay-framework)
+[![HitCount](http://hits.dwyl.io/Kotus-s/onset-roleplay-framework.svg)](http://hits.dwyl.io/Kotus-s/onset-roleplay-framework)  ![GitHub](https://img.shields.io/github/license/Kotus-s/onset-roleplay-framework) ![GitHub repo size](https://img.shields.io/github/repo-size/Kotus-s/onset-roleplay-framework?color=%23FF1B67&label=size&logo=lua) [![Docs](https://img.shields.io/badge/docs-view-orange)](https://kotus.gitbook.io/onset-roleplay-framework/)
 
 A roleplay gamemode for [Onset](https://playonset.com/)
 
@@ -20,7 +20,7 @@ Please refer to the official discord that support this gamemode.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/Kotus-s/onset-roleplay-framework) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Authors
 
@@ -32,7 +32,7 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 * **Stim** - *Developer* - [Stim](https://github.com/)
 * **Taink** - *Developer* - [Taink](https://github.com/Taink)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/Kotus-s/onset-roleplay-framework/contributors) who participated in this project.
 
 ## License
 
