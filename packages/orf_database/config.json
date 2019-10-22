@@ -1,0 +1,11 @@
+{
+    "database":{
+        "orf_database_host":"localhost",
+        "orf_database_port":3306,
+        "orf_database_user":"root",
+        "orf_database_password":"",
+        "orf_database_dbname":"orf_onset",
+        "orf_database_charset":"utf8mb4",
+        "orf_database_loglevel":"debug"
+    }
+}

@@ -1,6 +1,6 @@
 local PREFIX = '[ORF]'
 
-local function print( text )
+function print( text )
 	-- TODO: Handle special case like table
 	print( PREFIX .. ' ' .. tostring( text ) )
 end
