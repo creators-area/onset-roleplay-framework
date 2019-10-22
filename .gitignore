@@ -38,3 +38,15 @@ luac.out
 *.i*86
 *.x86_64
 *.hex
+
+HorizonServer
+
+LICENSE.txt
+
+mariadb_log.txt
+
+server_log.txt
+
+start_linux.sh
+
+steam_appid.txt
