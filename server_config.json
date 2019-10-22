@@ -10,8 +10,7 @@
 	"iplimit": 5,
 	"masterserver": true,
 	"plugins": [
-		"mariadb",
-		"ini-plugin"
+		"mariadb"
 	],
 	"packages": [
 		"orf_database"
