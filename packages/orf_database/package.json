@@ -2,7 +2,8 @@
 	"author": "Game Creators Area",
 	"version": "0.1",
 	"server_scripts": [
-		"server/connection.lua"
+		"server/connection.lua",
+		"server/query_builder.lua"
 	],
 	"client_scripts": [
 	],

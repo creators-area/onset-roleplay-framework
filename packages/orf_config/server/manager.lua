@@ -1,14 +1,15 @@
-local debug = ImportPackage( 'orf_debug' )
-local json = require( 'json' )
+local utils = ImportPackage( 'orf_utils' )
 
-local function load( package_name, category )
+function get( package_name, category )
 	local full_file_path = string.format( 'packages/%s/config.json', package_name )
-	if ( not debug.file_exist( full_file_path ) ) then
-		ServerExit( string.format( 'Cannot find the following config file: {%s}', full_file_path ) )
+	if ( not utils.file_exist( full_file_path ) ) then
+		print( ( 'Cannot find the following config file: {%s}' ):format( full_file_path ) )
+		-- TODO: Find why isn't work
+		ServerExit()
 	end
 
 	local stream = io.open( full_file_path )
-	local content = json.decode( io.read( '*a' ) )
+	local content = utils.json_decode( stream:read( '*a' ) )
 	stream:close()
 
 	if ( category ~= nil and content[ category ] ~= nil ) then
@@ -17,4 +18,4 @@ local function load( package_name, category )
 
 	return content or {}
 end
-AddFunctionExport( 'load', load )
+AddFunctionExport( 'get', get )

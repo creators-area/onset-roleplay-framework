@@ -3,7 +3,10 @@
 	"version": "0.1",
 	"server_scripts": [
 		"server/file.lua",
-		"server/print.lua"
+		"server/print.lua",
+		"server/json.lua",
+		"server/vendor/pprint.lua",
+		"server/vendor/json.lua"
 	],
 	"client_scripts": [
 	],

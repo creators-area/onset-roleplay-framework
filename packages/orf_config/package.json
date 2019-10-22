@@ -2,8 +2,7 @@
 	"author": "Game Creators Area",
 	"version": "0.1",
 	"server_scripts": [
-		"server/manager.lua",
-		"vendor/json.lua"
+		"server/manager.lua"
 	],
 	"client_scripts": [
 	],
