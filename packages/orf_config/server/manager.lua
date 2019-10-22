@@ -3,9 +3,8 @@ local utils = ImportPackage( 'orf_utils' )
 function get( package_name, category )
 	local full_file_path = string.format( 'packages/%s/config.json', package_name )
 	if ( not utils.file_exist( full_file_path ) ) then
-		print( ( 'Cannot find the following config file: {%s}' ):format( full_file_path ) )
-		-- TODO: Find why isn't work
 		ServerExit()
+		error( ( 'Cannot find the following config file: {%s}' ):format( full_file_path ) )
 	end
 
 	local stream = io.open( full_file_path )
