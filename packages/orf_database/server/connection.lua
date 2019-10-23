@@ -16,8 +16,8 @@ local function OnPackageStart()
 	if ( connection ) then
 		mariadb_set_charset( connection, credentials.charset )
 	else
-		-- TODO: Handle error message
 		ServerExit()
+		error( 'Cannot connect to server, please check your credentials in config.json' )
 	end
 
 	CallEvent( 'ORF.OnDatabaseConnected' )
@@ -31,9 +31,12 @@ AddEvent( 'OnPackageStop', OnPackageStop )
 
 local function test()
 	local query = queryBuilder:new()
-
-
-
-	-- utils.orf_print( query._connection )
+		:select( 'T1.steam_id, T1.cash, T2.expire_at' )
+		:from( 'accounts T1' )
+		:join( 'bans T2', 'T2.banned = T1.steam_id' )
+		:where( 'T1.steam_id', '=', 111111111111111 )
+		:orWhere( 'T1.cash', '>', 1000 )
+		:andWhere( 'T1.nickname', '=', 'Kotus' ):_build()
+	print( '\n' .. query._rawSql )
 end
 AddEvent( 'ORF.OnDatabaseConnected', test )
