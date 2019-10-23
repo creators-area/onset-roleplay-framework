@@ -3,39 +3,46 @@ local compile = {}
 
 queryBuilder = {}
 
-local function parse_joins( inpt, builder )
-	if #( builder._join ) <= 0 then
-		return inpt
+local function backtick( tbl )
+	for i = 1, #tbl do
+		tbl[ i ] = ( '`%s`' ):format( tbl[ i ] )
 	end
-	for _, value in pairs( builder._join ) do
-		inpt = inpt .. '\n' .. value.condition .. ' ' .. value.tbl .. '\n\tON ' .. value.on
-	end
-	return inpt
+	return tbl
 end
 
-local function parse_where( query, where )
-	local copy = utils.table_copy( where )
-	if ( #copy == 0 ) then return query end
-	query = query .. '\nWHERE ' .. copy[ 1 ].statement
-	table.remove( copy, 1 )
-	if ( #copy == 0 ) then return query end
-	for _, value in ipairs( copy ) do
-		query = query .. '\n\t' .. value.join .. ' ' .. value.statement
+local function parse_joins( query, builder )
+	if ( #( builder._join or {} ) <= 0 ) then return query end
+	for _, value in pairs( builder._join ) do
+		query = query .. ' ' .. value.condition .. ' ' .. value.tbl .. ' ON ' .. value.on
 	end
 	return query
 end
 
+local function parse_where( query, builder )
+	local copy = utils.table_copy( builder._where or {} )
+	local args = {}
+	if ( #copy <= 0 ) then return query end
+	query = query .. ' WHERE ' .. copy[ 1 ].statement .. '?'
+	table.insert( args, copy[ 1 ].value )
+	table.remove( copy, 1 )
+	if ( #copy <= 0 ) then return query end
+	for _, value in ipairs( copy ) do
+		query = query .. ' ' .. value.join .. ' ' .. value.statement .. '?'
+		table.insert( args, value.value )
+	end
+	return query, args
+end
+
 function compile.SELECT( builder )
-	local raw_query, colNames, tbls = 'SELECT ', table.concat( builder._select, ',\n\t' ), table.concat( builder._from, ',\n\t' )
+	local args = {}
+	local raw_query, colNames, tbls = 'SELECT ', table.concat( builder._select, ', ' ), table.concat( builder._from, ', ' )
 	raw_query = raw_query .. colNames
 	if #( builder._from ) > 0 then
-		raw_query = raw_query .. '\nFROM ' .. tbls
+		raw_query = raw_query .. ' FROM ' .. tbls
 	end
-
 	raw_query = parse_joins( raw_query, builder )
-	raw_query = parse_where( raw_query, builder._where )
-
-	return raw_query
+	raw_query, args = parse_where( raw_query, builder )
+	return raw_query, args
 end
 
 function queryBuilder:new( o )
@@ -51,17 +58,12 @@ function queryBuilder:new( o )
 end
 
 function queryBuilder:select( columns )
-	if ( not columns ) then
+	if ( not columns or type( columns ) ~= 'string' ) then
 		print( 'Argument to select function expected' )
 		return false
 	end
 
-	if ( type( columns ) == 'string' ) then
-		self._select = utils.trim( columns ) == '*' and { '*' } or utils.string_parse( columns )
-	elseif ( type( columns ) == 'table' ) then
-		self._select = ParseTable( columns )
-	end
-
+	self._select = utils.trim( columns ) == '*' and { '*' } or backtick( utils.string_parse( columns ) )
 	self._flag = 'select'
 	return self
 end
@@ -72,7 +74,7 @@ function queryBuilder:from( tbl_name )
 		return false
 	end
 
-	self._from = utils.string_parse( tbl_name )
+	self._from = backtick( utils.string_parse( tbl_name ) )
 	return self
 end
 
@@ -84,7 +86,7 @@ function queryBuilder:where( field, operator, value, joiner )
 
 	if ( not joiner ) then joiner = 'AND' end
 	value = tonumber( value ) and value or utils.trim( value )
-	table.insert( self._where, { join = joiner:upper(), statement = ( '%s %s %s' ):format( utils.trim( field ), utils.trim( operator ), value ) } )
+	table.insert( self._where, { join = joiner:upper(), statement = ( '`%s` %s ' ):format( utils.trim( field ), utils.trim( operator ) ), value = value } )
 	return self
 end
 
@@ -110,19 +112,38 @@ function queryBuilder:join( tbl_name, clause, condition )
 end
 
 function queryBuilder:_build()
-	self._rawSql = compile[ self._flag:upper() ]( self )
+	local rawSql, args = compile[ self._flag:upper() ]( self )
+	if ( args and #args > 0 ) then 
+		self._preparedSql = mariadb_prepare( self._connection, rawSql, args and #args > 0 and table.unpack( args ) or nil )
+	else
+		self._preparedSql = rawSql
+	end
 	return self
 end
 
 function queryBuilder:exec( callback )
-	mariadb_async_query( self._connection, self:_build(), function()
-		local results = {}
-		for i = 1, mariadb_get_row_count() do
-			results[ #results + 1 ] = mariadb_get_assoc( i )
-		end
+	self:_build()
+	local prepared_sql = self._preparedSql
+	if ( not prepared_sql ) then callback( false, { message = 'Cannot prepare query' } ) return end
+	mariadb_query( self._connection, prepared_sql )
+	local row_count = mariadb_get_row_count()
 
-		-- Handle last inserted id
-		local last_insert_id = self._isInsert and mariadb_get_insert_id() or nil
-		callback( results, last_insert_id )
-	end)
+	-- TODO: Find a better way to handle errors
+	if ( not row_count or row_count == 0 ) then
+		callback( {}, { message = 'Query row count: 0 or something went wrong' } )
+	end
+
+	-- Handle results
+	local row_count, results = mariadb_get_row_count(), {}
+	for i = 1, row_count do
+		results[ #results + 1 ] = mariadb_get_assoc( i )
+	end
+
+	-- Handle last inserted id
+	local extras = {}
+	local last_insert_id = self._isInsert and mariadb_get_insert_id() or nil
+	if ( last_insert_id ) then extras.last_insert_id = last_insert_id end
+
+	callback( results, extras )
+	return
 end
