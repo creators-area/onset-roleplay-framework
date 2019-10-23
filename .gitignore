@@ -41,6 +41,8 @@ luac.out
 
 HorizonServer
 
+packages/horizon/*
+
 LICENSE.txt
 
 mariadb_log.txt
