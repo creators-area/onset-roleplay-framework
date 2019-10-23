@@ -135,7 +135,7 @@ function queryBuilder:exec( callback )
 
 	-- Handle results
 	local row_count, results = mariadb_get_row_count(), {}
-	for i = 1, row_count do
+	for i = 1, row_count or 0 do
 		results[ #results + 1 ] = mariadb_get_assoc( i )
 	end
 
