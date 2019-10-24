@@ -1,0 +1,18 @@
+{
+	"author": "Game Creators Area",
+	"version": "0.1",
+	"server_scripts": [
+		"server/string.lua",
+		"server/dev.lua",
+		"server/file.lua",
+		"server/print.lua",
+		"server/json.lua",
+		"server/table.lua",
+		"server/vendor/pprint.lua",
+		"server/vendor/json.lua"
+	],
+	"client_scripts": [
+	],
+	"files": [
+	]
+}

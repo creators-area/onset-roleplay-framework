@@ -1,0 +1,12 @@
+{
+	"author": "Game Creators Area",
+	"version": "0.1",
+	"server_scripts": [
+		"server/query_builder.lua",
+		"server/connection.lua"
+	],
+	"client_scripts": [
+	],
+	"files": [
+	]
+}
