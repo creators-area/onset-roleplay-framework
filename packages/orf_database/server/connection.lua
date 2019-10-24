@@ -37,5 +37,9 @@ local function test()
 		:exec(function( results, extra )
 			utils.pprint( extra )
 		end)
+
+		queryBuilder:new():raw( 'SELECT * FROM `accounts` WHERE id = ?', '100010100101' ):exec(function( results, extra )
+			utils.pprint( extra )
+		end)
 end
 AddEvent( 'ORF.OnDatabaseConnected', test )

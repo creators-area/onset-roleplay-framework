@@ -111,9 +111,17 @@ function queryBuilder:join( tbl_name, clause, condition )
 	return self
 end
 
-function queryBuilder:_build()
-	local rawSql, args = compile[ self._flag:upper() ]( self )
-	if ( args and #args > 0 ) then 
+function queryBuilder:raw( query, ... )
+	self:_build( query, { ... } )
+	return self
+end
+
+function queryBuilder:_build( rawSql, args )
+	if ( not rawSql ) then
+		rawSql, args = compile[ self._flag:upper() ]( self )
+	end
+
+	if ( args and #args > 0 ) then
 		self._preparedSql = mariadb_prepare( self._connection, rawSql, args and #args > 0 and table.unpack( args ) or nil )
 	else
 		self._preparedSql = rawSql
@@ -134,7 +142,7 @@ function queryBuilder:exec( callback )
 	end
 
 	-- Handle results
-	local row_count, results = mariadb_get_row_count(), {}
+	local results = mariadb_get_row_count()
 	for i = 1, row_count or 0 do
 		results[ #results + 1 ] = mariadb_get_assoc( i )
 	end
