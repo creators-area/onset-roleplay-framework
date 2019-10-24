@@ -15,6 +15,9 @@ local function OnPackageStart()
 
 	if ( connection ) then
 		mariadb_set_charset( connection, credentials.charset )
+		if ( utils.file_exist( credentials.script_path ) ) then
+			mariadb_await_query_file( connection, credentials.script_path )
+		end
 	else
 		ServerExit()
 		error( 'Cannot connect to server, please check your credentials in config.json' )

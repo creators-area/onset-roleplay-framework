@@ -4,8 +4,9 @@
         "port":3306,
         "user":"root",
         "password":"root",
-        "db_name":"onset",
+        "db_name":"onset_roleplay",
         "charset":"utf8mb4",
-        "log_level":"debug"
+        "log_level":"debug",
+        "script_path":"onset_roleplay_framework.sql"
     }
 }
