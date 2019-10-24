@@ -4,7 +4,7 @@
 
 Permet d’exécuter une requête SQL sans passer par la QueryBuilder. Les requêtes sont préparées.
 
-## ❱ Syntax
+## ❱ Syntaxe
 
 {% code-tabs %}
 {% code-tabs-item title="server" %}
@@ -25,7 +25,7 @@ query:raw( string query, varargs ... )
 
 | Type | Description |
 | :--- | :--- |
-| [QueryBuilder](./) | L'instance **QueryBuilder** courrante |
+| [QueryBuilder](./) | L'instance **QueryBuilder** courante |
 
 ## ❱ Exemples
 
