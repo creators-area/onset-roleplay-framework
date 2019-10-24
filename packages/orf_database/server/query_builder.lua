@@ -45,6 +45,18 @@ function compile.SELECT( builder )
 	return raw_query, args
 end
 
+function compile.INSERT( builder )
+
+end
+
+function compile.UPDATE( builder )
+
+end
+
+function compile.DELETE( builder )
+
+end
+
 function queryBuilder:new( o )
 	o = o or {}
 	setmetatable( o, self )
