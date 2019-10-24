@@ -1,0 +1,8 @@
+{
+	"author": "Game Creators Area",
+	"version": "0.1",
+	"server_scripts": [
+        "accounts/server/auth.lua"
+	],
+	"client_scripts": []
+}
