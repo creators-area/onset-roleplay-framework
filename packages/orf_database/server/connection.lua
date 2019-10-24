@@ -15,6 +15,7 @@ local function OnPackageStart()
 
 	if ( connection ) then
 		mariadb_set_charset( connection, credentials.charset )
+		-- TODO: Handle use db and remove database name from sql file
 		if ( utils.file_exist( credentials.script_path ) ) then
 			mariadb_await_query_file( connection, credentials.script_path )
 		end
@@ -32,17 +33,17 @@ local function OnPackageStop()
 end
 AddEvent( 'OnPackageStop', OnPackageStop )
 
-local function test()
-	queryBuilder:new()
-		:select( '*' )
-		:from( 'accounts' )
-		:where( 'id', '=', '5145646854685' )
-		:exec(function( results, extra )
-			utils.pprint( extra )
-		end)
+-- local function test()
+-- 	queryBuilder:new()
+-- 		:select( '*' )
+-- 		:from( 'accounts' )
+-- 		:where( 'id', '=', '5145646854685' )
+-- 		:exec(function( results, extra )
+-- 			utils.pprint( extra )
+-- 		end)
 
-		queryBuilder:new():raw( 'SELECT * FROM `accounts` WHERE `id` = ?', '100010100101' ):exec(function( results, extra )
-			utils.pprint( extra )
-		end)
-end
-AddEvent( 'ORF.OnDatabaseConnected', test )
+-- 		queryBuilder:new():raw( 'SELECT * FROM `accounts` WHERE `id` = ?', '100010100101' ):exec(function( results, extra )
+-- 			utils.pprint( extra )
+-- 		end)
+-- end
+-- AddEvent( 'ORF.OnDatabaseConnected', test )
