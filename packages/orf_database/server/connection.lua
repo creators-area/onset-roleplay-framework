@@ -41,7 +41,7 @@ local function test()
 			utils.pprint( extra )
 		end)
 
-		queryBuilder:new():raw( 'SELECT * FROM `accounts` WHERE id = ?', '100010100101' ):exec(function( results, extra )
+		queryBuilder:new():raw( 'SELECT * FROM `accounts` WHERE `id` = ?', '100010100101' ):exec(function( results, extra )
 			utils.pprint( extra )
 		end)
 end

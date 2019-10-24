@@ -125,8 +125,8 @@ function queryBuilder:join( tbl_name, clause, condition )
 end
 
 function queryBuilder:raw( query, ... )
-	self:_build( query, { ... } )
-	return self
+	self._isRaw = true
+	return self:_build( query, { ... } )
 end
 
 function queryBuilder:_build( rawSql, args )
@@ -143,7 +143,7 @@ function queryBuilder:_build( rawSql, args )
 end
 
 function queryBuilder:exec( callback )
-	self:_build()
+	if ( not self._isRaw ) then self:_build() end
 	local prepared_sql = self._preparedSql
 	if ( not prepared_sql ) then callback( false, { message = 'Cannot prepare query' } ) return end
 	mariadb_query( self._connection, prepared_sql )
