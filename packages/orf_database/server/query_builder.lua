@@ -37,7 +37,7 @@ function compile.SELECT( builder )
 	local args = {}
 	local raw_query, colNames, tbls = 'SELECT ', table.concat( builder._select, ', ' ), table.concat( builder._from, ', ' )
 	raw_query = raw_query .. colNames
-	if #( builder._from ) > 0 then
+	if ( #builder._from ) > 0 then
 		raw_query = raw_query .. ' FROM ' .. tbls
 	end
 	raw_query = parse_joins( raw_query, builder )
@@ -56,6 +56,7 @@ function queryBuilder:new( o )
 	self._connection = get_connection()
 	return o
 end
+AddFunctionExport( 'queryBuilder', queryBuilder.new )
 
 function queryBuilder:select( columns )
 	if ( not columns or type( columns ) ~= 'string' ) then
@@ -102,7 +103,7 @@ function queryBuilder:join( tbl_name, clause, condition )
 	if ( not condition ) then
 		condition = 'JOIN'
 	else
-		condition = utils.trim( condition:upper() ) ..' JOIN'
+		condition = utils.trim( condition:upper() ) .. ' JOIN'
 	end
 	if ( type( clause ) == 'string' ) then
 		clause = utils.trim( clause )
