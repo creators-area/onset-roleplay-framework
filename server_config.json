@@ -10,12 +10,14 @@
 	"iplimit": 5,
 	"masterserver": true,
 	"plugins": [
+		"ini-plugin",
 		"mariadb"
 	],
 	"packages": [
 		"orf_utils",
 		"orf_config",
-		"orf_database"
+		"orf_database",
+		"horizon"
 	],
 	"stream_distance": 12000.0,
 	"stream_update_rate": 0.05,
