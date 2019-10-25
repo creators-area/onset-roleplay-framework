@@ -3,11 +3,15 @@ local compile = {}
 
 queryBuilder = {}
 
-local function backtick( tbl )
-	for i = 1, #tbl do
-		tbl[ i ] = ( '`%s`' ):format( tbl[ i ] )
+local function backtick( input )
+	if ( type( input ) == 'table' ) then
+		for i = 1, #input do
+			input[ i ] = ( '`%s`' ):format( input[ i ] )
+		end
+	elseif ( type( input ) == 'string' ) then
+		input = ( '`%s`' ):format( input )
 	end
-	return tbl
+	return input
 end
 
 local function parse_joins( query, builder )
@@ -25,7 +29,7 @@ local function parse_where( query, builder )
 	query = query .. ' WHERE ' .. copy[ 1 ].statement .. '?'
 	table.insert( args, copy[ 1 ].value )
 	table.remove( copy, 1 )
-	if ( #copy <= 0 ) then return query end
+	if ( #copy <= 0 ) then return query, args end
 	for _, value in ipairs( copy ) do
 		query = query .. ' ' .. value.join .. ' ' .. value.statement .. '?'
 		table.insert( args, value.value )
@@ -35,8 +39,8 @@ end
 
 function compile.SELECT( builder )
 	local args = {}
-	local raw_query, colNames, tbls = 'SELECT ', table.concat( builder._select, ', ' ), table.concat( builder._from, ', ' )
-	raw_query = raw_query .. colNames
+	local raw_query, columns_name, tbls = 'SELECT ', table.concat( builder._select, ', ' ), table.concat( builder._from, ', ' )
+	raw_query = raw_query .. columns_name
 	if ( #builder._from ) > 0 then
 		raw_query = raw_query .. ' FROM ' .. tbls
 	end
@@ -46,15 +50,44 @@ function compile.SELECT( builder )
 end
 
 function compile.INSERT( builder )
-
+	local columns, values, args = {}, {}, {}
+	for k, v in pairs( builder._values ) do
+		table.insert( columns, backtick( k ) )
+		table.insert( values, type( v ) == 'string' and '\'?\'' or '?' )
+		table.insert( args, v )
+	end
+	local raw_query = ( 'INSERT INTO %s ( %s ) VALUES ( %s )'):format( table.concat( builder._from, ', ' ), table.concat( columns, ', ' ), table.concat( values, ', ' ) )
+	return raw_query, args
 end
 
 function compile.UPDATE( builder )
-
+	if ( #builder._from == 0 ) then
+		print( 'No table has been specified for UPDATE call.' )
+		return false
+	end
+	local raw_query, args, values = 'UPDATE ' .. builder._from[ 1 ] ..' SET ', {}, {}
+	for k, v in pairs( builder._values ) do
+		k = backtick( k )
+		table.insert( values, type( v ) == 'string' and k .. ' = \'?\'' or k .. ' = ?' )
+		table.insert( args, v )
+	end
+	raw_query = raw_query .. table.concat( values, ', ' ) 
+	raw_query, where_args = parse_where( raw_query, builder )
+	for i = 1, #where_args do
+		table.insert( args, where_args[ i ] )
+	end
+	return raw_query, args
 end
 
 function compile.DELETE( builder )
-
+	if ( #builder._from == 0 ) then
+		print( 'No table has been specified for DELETE call.' )
+		return false
+	end
+	local args = {}
+	local raw_query = 'DELETE FROM ' .. table.concat( builder._from, ', ' )
+	raw_query, args = parse_where( raw_query, builder )
+	return raw_query, args
 end
 
 function queryBuilder:new( o )
@@ -124,6 +157,32 @@ function queryBuilder:join( tbl_name, clause, condition )
 	return self
 end
 
+function queryBuilder:insert( tbl_name, values )
+	self._flag = 'insert'
+	self:from( tbl_name )
+	self._values = self._values or {}
+	for k, v in pairs( values ) do
+		self._values[ k ] = v
+	end
+	return self
+end
+
+function queryBuilder:delete()
+	self._flag = 'delete'
+	return self
+end
+
+function queryBuilder:update( tbl_name, values )
+	self._flag = 'update'
+	self:from( tbl_name )
+	self._values = self._values or {}
+	for k, v in pairs( values ) do
+		self._values[ k ] = v
+	end
+	return self
+end
+
+
 function queryBuilder:raw( query, ... )
 	self._isRaw = true
 	return self:_build( query, { ... } )
@@ -135,7 +194,7 @@ function queryBuilder:_build( rawSql, args )
 	end
 
 	if ( args and #args > 0 ) then
-		self._preparedSql = mariadb_prepare( self._connection, rawSql, args and #args > 0 and table.unpack( args ) or nil )
+		self._preparedSql = mariadb_prepare( self._connection, rawSql, table.unpack( args ) )
 	else
 		self._preparedSql = rawSql
 	end
@@ -146,25 +205,31 @@ function queryBuilder:exec( callback )
 	if ( not self._isRaw ) then self:_build() end
 	local prepared_sql = self._preparedSql
 	if ( not prepared_sql ) then callback( false, { message = 'Cannot prepare query' } ) return end
-	mariadb_query( self._connection, prepared_sql )
-	local row_count = mariadb_get_row_count()
+	mariadb_async_query( self._connection, prepared_sql, function()
+		if ( type( callback ) ~= 'function' ) then return end
+		local row_count = mariadb_get_row_count()
+		local row_affected = mariadb_get_affected_rows()
 
-	-- TODO: Find a better way to handle errors
-	if ( not row_count or row_count == 0 ) then
-		callback( {}, { message = 'Query row count: 0 or something went wrong' } )
-	end
+		-- TODO: Find a better way to handle errors
+		if ( not row_count or row_count == 0 and not row_affected ) then
+			callback( {}, { message = 'Query row count: 0 or something went wrong' } )
+		end
 
-	-- Handle results
-	local results = mariadb_get_row_count()
-	for i = 1, row_count or 0 do
-		results[ #results + 1 ] = mariadb_get_assoc( i )
-	end
+		-- Handle results
+		local results = {}
+		if ( row_count and row_count > 0 ) then
+			for i = 1, row_count or 0 do
+				results[ #results + 1 ] = mariadb_get_assoc( i )
+			end
+		end
 
-	-- Handle last inserted id
-	local extras = {}
-	local last_insert_id = self._isInsert and mariadb_get_insert_id() or nil
-	if ( last_insert_id ) then extras.last_insert_id = last_insert_id end
-
-	callback( results, extras )
+		-- Handle last inserted id
+		local extras = {}
+		local last_insert_id = mariadb_get_insert_id()
+		if ( last_insert_id ~= nil ) then extras.last_insert_id = last_insert_id end
+		if ( row_affected ~= nil ) then extras.row_affected = row_affected end
+		callback( results, extras )
+	end)
+	
 	return
 end

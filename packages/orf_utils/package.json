@@ -8,6 +8,7 @@
 		"server/print.lua",
 		"server/json.lua",
 		"server/table.lua",
+		"server/time.lua",
 		"server/vendor/pprint.lua",
 		"server/vendor/json.lua"
 	],
