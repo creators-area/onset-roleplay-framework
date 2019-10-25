@@ -14,7 +14,6 @@
 	],
 	"packages": [
 		"orf_utils",
-		"orf_config",
 		"orf_database"
 	],
 	"stream_distance": 12000.0,
