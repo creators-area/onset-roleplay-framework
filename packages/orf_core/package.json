@@ -2,7 +2,20 @@
 	"author": "Game Creators Area",
 	"version": "0.1",
 	"server_scripts": [
-        "accounts/server/auth.lua"
+		"server/database/connection.lua",
+		"server/database/query_builder.lua",
+
+		"server/models/base_model.lua",
+		"server/models/account.lua",
+
+		"server/accounts/account_manager.lua",
+		"server/accounts/authentication.lua"
 	],
-	"client_scripts": []
+	"client_scripts": [
+		"client/players/selection/selection.lua"
+	],
+	"files": [
+		"client/players/selection/ui/selection.html",
+		"client/players/selection/ui/selection.js"
+	]
 }
