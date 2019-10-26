@@ -7,14 +7,8 @@
 	<title>ORF - Player selection</title>
 
 	<link rel="stylesheet" href="http://asset/orf_core/client/vendor/semantic.min.css">
-</head>
-<body>
-	<div class="ui raised very padded text container segment">
-		<h2 class="ui header">Choose or create your character</h2>
-		<p></p>
-		<p></p>
-	</div>
-
+	<script src="http://asset/orf_core/client/vendor/jquery-3.4.1.min.js"></script>
+	<script src="http://asset/orf_core/client/vendor/semantic.min.js"></script>
 	<script>
 		(function(obj) {
 			ue.game = {};
@@ -25,6 +19,23 @@
 		})(ue.game);
 		CallEvent = ue.game.callevent;
 	</script>
-	<script src="http://asset/orf_core/client/vendor/jquery-3.4.1.min.js"></script>
-	<script src="http://asset/orf_core/client/vendor/semantic.min.js"></script>
+	<style>
+		body {
+			background:none;
+			background-color:rgba( 0, 0, 0, 0.3 );
+		}
+	</style>
+</head>
+<body>
+	<div class="ui text container raised segment">
+		<h2 class="ui header">
+			<i class="circular users icon"></i>
+			<div class="content">
+				Character identity
+				<div class="sub header">Choose or create your character</div>
+			</div>
+		</h2>
+		<div class="ui divider"></div>
+		<p></p>
+	</div>
 </body>

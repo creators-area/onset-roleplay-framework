@@ -38,15 +38,16 @@ function check_account_roles( player )
 	CallEvent( 'ORF.OnAccountLoad', player )
 end
 
+AddEvent( 'OnPlayerJoin', function( player )
+	SetPlayerSpawnLocation( player, 128589.000000, 78889.000000, 1576.000000, 90.0 )
+end)
+
 AddEvent( 'ORF.OnAccountLoad', function( player )
 	local account = AccountManager:Get( player )
-	SetPlayerLocation( player, 125773.000000, 80246.000000, 1700.000000 )
-	if ( h ~= -1.0 ) then
-		SetPlayerHeading( player, 90.0 )
-	end
-	SetPlayerModel( player, 0 )
+	SetPlayerLocation( player, 128589.000000, 78889.000000, 1576.000000, 90.0 )
+	SetPlayerModel( player, 5 )
 	SetPlayerName( player, account:GetSteamName() )
 
 	-- Toggle player selection UI
-	CallRemoteEvent( player, 'ORF.PlayerSelectionToggleVisiblity' )
+	-- CallRemoteEvent( player, 'ORF.PlayerSelectionToggleVisiblity' )
 end)

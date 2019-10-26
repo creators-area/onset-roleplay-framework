@@ -1,28 +1,32 @@
 local selection_ui = nil
 
-AddEvent( 'OnPackageStart', function()
+function create_web_ui()
 	local width, height = GetScreenSize()
-	selection_ui = CreateWebUI( 0, 0, width, height )
+	selection_ui = CreateWebUI( 0, 0, width, height, 1, 32 )
 	SetWebAlignment( selection_ui, 0, 0 )
 	SetWebAnchors( selection_ui, 0, 0, 0, 0 )
-	LoadWebFile( selection_ui, ( 'http://asset/%s/client/players/ui/selection.html' ):format( GetPackageName() ) )
+	LoadWebFile( selection_ui, ( 'http://asset/%s/client/players/selection/ui/selection.html' ):format( GetPackageName() ) )
 	SetWebVisibility( selection_ui, WEB_HIDDEN )
-end)
+	AddPlayerChat( ( 'width:%s heigth:%s' ):format( width, height ) )
+end
 
-AddEvent( 'OnPackageStop', function()
+function OnPackageStop()
 	DestroyWebUI( selection_ui )
-end)
+end
+AddEvent( 'OnPackageStop', OnPackageStop )
 
-AddEvent( 'OnKeyPress', function( key )
+function OnKeyPress( key )
 
-end)
+end
+AddEvent( 'OnKeyPress', OnKeyPress )
 
 function toggle_ui_visiblity()
-	print( 'Toggle selection UI' )
-	local is_visible = GetWebVisibility( selection_ui )
+	if ( not selection_ui ) then create_web_ui() end
+	AddPlayerChat( 'Selection:toggle_ui_visiblity' )
+	local is_visible = GetWebVisibility( selection_ui ) == 1
 	ShowMouseCursor( not is_visible )
-	SetInputMode( is_visible and INPUT_GAME or INPUT_UI )
-	SetWebVisibility( selection_ui, is_visible and WEB_HIDDEN or WEB_VISIBLE )
+	SetInputMode( not is_visible and INPUT_UI or INPUT_GAME )
+	SetWebVisibility( selection_ui, not is_visible and WEB_VISIBLE or WEB_HIDDEN )
 end
 AddRemoteEvent( 'ORF.PlayerSelectionToggleVisiblity', toggle_ui_visiblity )
 
