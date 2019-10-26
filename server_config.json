@@ -14,7 +14,7 @@
 	],
 	"packages": [
 		"orf_utils",
-		"orf_database"
+		"orf_core"
 	],
 	"stream_distance": 12000.0,
 	"stream_update_rate": 0.05,
