@@ -15,6 +15,10 @@
 		"client/players/selection/selection.lua"
 	],
 	"files": [
+		"client/vendor/jquery-3.4.1.min.js",
+		"client/vendor/semantic.min.css",
+		"client/vendor/semantic.min.js",
+
 		"client/players/selection/ui/selection.html",
 		"client/players/selection/ui/selection.js"
 	]
