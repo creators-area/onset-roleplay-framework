@@ -1,5 +1,5 @@
 local utils = ImportPackage( 'orf_utils' )
-local BaseModel = require( 'packages/' .. GetPackageName() .. '/server/models/base_model' )
+local BaseModel = require( 'packages/' .. GetPackageName() .. '/core/server/models/base_model' )
 local Account = setmetatable( { }, { __index = BaseModel } )
 Account.__index = Account
 

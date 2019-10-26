@@ -2,24 +2,23 @@
 	"author": "Game Creators Area",
 	"version": "0.1",
 	"server_scripts": [
-		"server/database/connection.lua",
-		"server/database/query_builder.lua",
+		"core/server/database/connection.lua",
+		"core/server/database/query_builder.lua",
+		"core/server/models/base_model.lua",
+		"core/server/models/account.lua",
 
-		"server/models/base_model.lua",
-		"server/models/account.lua",
-
-		"server/accounts/account_manager.lua",
-		"server/accounts/authentication.lua"
+		"accounts/server/account_manager.lua",
+		"accounts/server/authentication.lua"
 	],
 	"client_scripts": [
-		"client/players/selection/selection.lua"
+		"players/client/selection/selection.lua"
 	],
 	"files": [
-		"client/vendor/jquery-3.4.1.min.js",
-		"client/vendor/semantic.min.css",
-		"client/vendor/semantic.min.js",
+		"vendor/client/jquery-3.4.1.min.js",
+		"vendor/client/semantic.min.css",
+		"vendor/client/semantic.min.js",
 
-		"client/players/selection/ui/selection.html",
-		"client/players/selection/ui/selection.js"
+		"players/client/selection/ui/selection.html",
+		"players/client/selection/ui/selection.js"
 	]
 }

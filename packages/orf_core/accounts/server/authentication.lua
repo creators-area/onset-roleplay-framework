@@ -1,4 +1,4 @@
-local Account = require( 'packages/' .. GetPackageName() .. '/server/models/account' )
+local Account = require( 'packages/' .. GetPackageName() .. '/core/server/models/account' )
 local utils = ImportPackage( 'orf_utils' )
 
 AddEvent( 'OnPlayerSteamAuth', function( player )

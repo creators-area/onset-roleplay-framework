@@ -1,4 +1,3 @@
-local database = ImportPackage( 'orf_database' )
 local utils = ImportPackage( 'orf_utils' )
 
 local BaseModel = {}
