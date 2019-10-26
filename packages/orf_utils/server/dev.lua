@@ -38,3 +38,9 @@ function cmd_gas(player)
 	TeleportTo(player, 125773.000000, 80246.000000, 1645.000000, 90.0)
 end
 AddCommand("gas", cmd_gas)
+
+function cmd_getpos(player)
+	local x, y, z = GetPlayerLocation( player )
+	AddPlayerChat( player, table.concat( { x, y, z }, ', ' ) )
+end
+AddCommand("getpos", cmd_getpos)
