@@ -26,6 +26,7 @@ AddEvent( 'OnPlayerSteamAuth', function( player )
 	end)
 end)
 
+-- TODO: Check account ban before load Account model
 function check_account_bans( results, extras, player )
 	print( 'check_account_bans', AccountManager:Get( player ):GetSteamName() )
 	-- TODO: Handle query to check if account is banned

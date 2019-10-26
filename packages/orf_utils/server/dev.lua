@@ -24,16 +24,6 @@ function TeleportTo(player, x, y, z, h)
 	ResetPlayerCamera(player)
 end
 
-function cmd_beach(player)
-	TeleportTo(player, 208591.0, 212335.0, 455.0, 180.0)
-end
-AddCommand("beach", cmd_beach)
-
-function cmd_police(player)
-	TeleportTo(player, 173479.0, 192671.0, 1335.0, -90.0)
-end
-AddCommand("police", cmd_police)
-
 function cmd_gas(player)
 	TeleportTo(player, 125773.000000, 80246.000000, 1645.000000, 90.0)
 end
