@@ -8,5 +8,16 @@
         "charset":"utf8mb4",
         "log_level":"debug",
         "script_path":"onset_roleplay_framework.sql"
+    },
+    "permissions":[
+        { "name":"ban", "description":"Ability to ban someone" },
+        { "name":"kick", "description":"Ability to kick someone" }
+    ],
+    "roles":{
+        "default_role": "user",
+        "roles": [
+            { "name":"owner", "description":"Owner of the server", "permissions": [ "ban", "kick" ] },
+            { "name":"user", "description":"Standard user", "permissions": [ "", "" ] }
+        ]
     }
 }

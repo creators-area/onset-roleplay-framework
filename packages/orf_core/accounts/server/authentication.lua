@@ -50,5 +50,5 @@ AddEvent( 'ORF.OnAccountLoad', function( player )
 	SetPlayerName( player, account:GetSteamName() )
 
 	-- Toggle player selection UI
-	-- CallRemoteEvent( player, 'ORF.PlayerSelectionToggleVisiblity' )
+	CallRemoteEvent( player, 'ORF.PlayerSelectionToggleVisiblity' )
 end)

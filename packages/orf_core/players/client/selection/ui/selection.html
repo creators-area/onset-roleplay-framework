@@ -5,10 +5,130 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>ORF - Player selection</title>
+	
+	<link rel="stylesheet" href="http://asset/orf_core/vendor/client/semantic.min.css">
+	<style>
+		body {
+			background:none;
+			background-color:rgba( 0, 0, 0, 0.7 );
+		}
+	</style>
+</head>
+<body>
+	<div class="ui grid middle aligned" style="height:100vh;width: 100%;">
 
-	<link rel="stylesheet" href="http://asset/orf_core/client/vendor/semantic.min.css">
-	<script src="http://asset/orf_core/client/vendor/jquery-3.4.1.min.js"></script>
-	<script src="http://asset/orf_core/client/vendor/semantic.min.js"></script>
+		<div class="row">
+			<div class="column">
+				<div class="ui text container">
+					
+					<div class="ui segments stacked">
+						
+						<div class="ui segment red center aligned">
+							<h2 class="ui icon header">
+								<i class="icon users"></i>
+								<div class="content">
+									Character identity
+									<div class="sub header">Choose or create your character</div>
+									<div id="test"></div>
+								</div>
+							</h2>
+						</div>
+						
+						<div class="ui segment padded">
+							<div class="ui three cards">
+								
+								<div class="ui card stacked link red">
+									<div class="content">
+										<div class="header">Jenny Hess</div>
+										<div class="description">
+											<div class="ui list">
+												<div class="item">
+													<i class="birthday cake icon"></i>
+													<div class="content">25 years old</div>
+												</div>
+												<div class="item">
+													<i class="dollar sign icon"></i>
+													<div class="content">$5.250</div>
+												</div>
+												<div class="item">
+													<i class="money bill alternate icon"></i>
+													<div class="content">$25.457</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div id="characters" class="ui card stacked link red">
+									<div class="content">
+										<div class="header">Veronika Ossi</div>
+										<div class="description">
+											<div class="ui list">
+												<div class="item">
+													<i class="birthday cake icon"></i>
+													<div class="content">32 years old</div>
+												</div>
+												<div class="item">
+													<i class="dollar sign icon"></i>
+													<div class="content">$1.250</div>
+												</div>
+												<div class="item">
+													<i class="money bill alternate icon"></i>
+													<div class="content">$102.254</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<a id="click-here" class="ui card stacked red" href="#">
+									<div class="center aligned description">
+										<i class="icon plus grey massive"></i>
+									</div>
+									<div class="extra content">
+										<div class="center aligned">
+											Create new character
+										</div>
+									</div>
+								</a>
+								
+							</div>
+						</div>
+						
+						<div class="ui clearing secondary segment">
+							<button id="leave-server" class="ui right floated labeled icon button negative">
+								Leaver server
+								<i class="sign-out icon"></i>
+							</button>
+						</div>
+						
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="leave-confirmation" class="ui basic modal">
+		<div class="ui icon header">
+			<i class="sign-out icon"></i>
+			Did you really want to leave the server?
+		</div>
+		<div class="actions">
+			<div class="ui red basic cancel inverted button">
+				<i class="remove icon"></i>
+				No
+			</div>
+			<div class="ui green ok inverted button">
+				<i class="checkmark icon"></i>
+				Yes
+			</div>
+		</div>
+	</div>
+	
+	<script src="http://asset/orf_core/vendor/client/jquery-3.4.1.min.js"></script>
+	<script src="http://asset/orf_core/vendor/client/semantic.min.js"></script>
+	<script src="http://asset/orf_core/players/client/selection/ui/selection.js"></script>
 	<script>
 		(function(obj) {
 			ue.game = {};
@@ -19,23 +139,4 @@
 		})(ue.game);
 		CallEvent = ue.game.callevent;
 	</script>
-	<style>
-		body {
-			background:none;
-			background-color:rgba( 0, 0, 0, 0.3 );
-		}
-	</style>
-</head>
-<body>
-	<div class="ui text container raised segment">
-		<h2 class="ui header">
-			<i class="circular users icon"></i>
-			<div class="content">
-				Character identity
-				<div class="sub header">Choose or create your character</div>
-			</div>
-		</h2>
-		<div class="ui divider"></div>
-		<p></p>
-	</div>
 </body>

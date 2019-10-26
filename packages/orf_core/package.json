@@ -18,6 +18,10 @@
 		"vendor/client/semantic.min.css",
 		"vendor/client/semantic.min.js",
 
+		"vendor/client/themes/default/assets/fonts/brand-icons.ttf",
+		"vendor/client/themes/default/assets/fonts/icons.ttf",
+		"vendor/client/themes/default/assets/fonts/outline-icons.ttf",
+
 		"players/client/selection/ui/selection.html",
 		"players/client/selection/ui/selection.js"
 	]
