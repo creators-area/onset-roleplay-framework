@@ -32,27 +32,6 @@ local function OnPackageStop()
 end
 AddEvent( 'OnPackageStop', OnPackageStop )
 
-local function test()
-	queryBuilder:new():delete():from( 'accounts' ):where( 'steamid', '=', '76561198181970707' ):exec(function( results, extras )
-		queryBuilder:new():insert( 'accounts', {
-			[ 'steamid' ] = '76561198181970707',
-			[ 'steam_name' ] = 'Kotus',
-			[ 'game_version' ] = 162,
-			[ 'locale' ] = 'fr_FR',
-			[ 'count_login' ] = '0',
-			[ 'count_kick' ] = '0',
-			[ 'last_ip' ] = '127.0.0.1',
-			[ 'created_at' ] = utils.get_unix_time()
-		}):exec(function( results, extras )
-			queryBuilder:new():raw( 'SELECT * FROM `accounts`' ):exec(function( results, extra )
-				queryBuilder:new():update( 'accounts', { [ 'steam_name' ] = 'Koazdazdtussss' } ):where( 'steamid', '=', '76561198181970707' ):exec()
-			end)
-		end)
-	end)
-end
-AddEvent( 'ORF.OnDatabaseConnected', test )
-
-
 -- OnPlayerServerAuth
 -- OnPlayerSteamAuth
 -- OnPlayerJoin

@@ -1,7 +1,8 @@
 local utils = ImportPackage( 'orf_utils' )
 local compile = {}
 
-queryBuilder = {}
+QueryBuilder = {}
+QueryBuilder.__index = QueryBuilder
 
 local function backtick( input )
 	if ( type( input ) == 'table' ) then
@@ -90,20 +91,18 @@ function compile.DELETE( builder )
 	return raw_query, args
 end
 
-function queryBuilder:new( o )
-	o = o or {}
-	setmetatable( o, self )
-	self.__index = self
-	self._flag = ''
-	self._from = ''
-	self._where = {}
-	self._join = {}
-	self._connection = get_connection()
-	return o
+function QueryBuilder:new()
+	local self = setmetatable({
+		_flag = '',
+		_from = '',
+		_where = {},
+		_join = {},
+		_connection = get_connection(),
+	}, QueryBuilder )
+	return self
 end
-AddFunctionExport( 'queryBuilder', queryBuilder.new )
 
-function queryBuilder:select( columns )
+function QueryBuilder:select( columns )
 	if ( not columns or type( columns ) ~= 'string' ) then
 		print( 'Argument to select function expected' )
 		return false
@@ -114,7 +113,7 @@ function queryBuilder:select( columns )
 	return self
 end
 
-function queryBuilder:from( tbl_name )
+function QueryBuilder:from( tbl_name )
 	if ( not tbl_name or type( tbl_name ) ~= 'string' ) then
 		print( 'You must define a table' )
 		return false
@@ -124,7 +123,7 @@ function queryBuilder:from( tbl_name )
 	return self
 end
 
-function queryBuilder:where( field, operator, value, joiner )
+function QueryBuilder:where( field, operator, value, joiner )
 	if ( not field or type( field ) ~= 'string' ) then
 		print( 'Matching clauses to where function expected' )
 		return false
@@ -136,15 +135,15 @@ function queryBuilder:where( field, operator, value, joiner )
 	return self
 end
 
-function queryBuilder:andWhere( field, operator, value )
+function QueryBuilder:andWhere( field, operator, value )
 	return self:where( field, operator, value, 'AND' )
 end
 
-function queryBuilder:orWhere( field, operator, value )
+function QueryBuilder:orWhere( field, operator, value )
 	return self:where( field, operator, value, 'OR' )
 end
 
-function queryBuilder:join( tbl_name, clause, condition )
+function QueryBuilder:join( tbl_name, clause, condition )
 	if ( not condition ) then
 		condition = 'JOIN'
 	else
@@ -157,7 +156,7 @@ function queryBuilder:join( tbl_name, clause, condition )
 	return self
 end
 
-function queryBuilder:insert( tbl_name, values )
+function QueryBuilder:insert( tbl_name, values )
 	self._flag = 'insert'
 	self:from( tbl_name )
 	self._values = self._values or {}
@@ -167,12 +166,12 @@ function queryBuilder:insert( tbl_name, values )
 	return self
 end
 
-function queryBuilder:delete()
+function QueryBuilder:delete()
 	self._flag = 'delete'
 	return self
 end
 
-function queryBuilder:update( tbl_name, values )
+function QueryBuilder:update( tbl_name, values )
 	self._flag = 'update'
 	self:from( tbl_name )
 	self._values = self._values or {}
@@ -183,12 +182,12 @@ function queryBuilder:update( tbl_name, values )
 end
 
 
-function queryBuilder:raw( query, ... )
+function QueryBuilder:raw( query, ... )
 	self._isRaw = true
 	return self:_build( query, { ... } )
 end
 
-function queryBuilder:_build( rawSql, args )
+function QueryBuilder:_build( rawSql, args )
 	if ( not rawSql ) then
 		rawSql, args = compile[ self._flag:upper() ]( self )
 	end
@@ -201,10 +200,10 @@ function queryBuilder:_build( rawSql, args )
 	return self
 end
 
-function queryBuilder:exec( callback )
+function QueryBuilder:exec( callback )
 	if ( not self._isRaw ) then self:_build() end
 	local prepared_sql = self._preparedSql
-	if ( not prepared_sql ) then callback( false, { message = 'Cannot prepare query' } ) return end
+	if ( not prepared_sql ) then callback( false, { message = 'Cannot prepare query', status = 'error' } ) return end
 	mariadb_async_query( self._connection, prepared_sql, function()
 		if ( type( callback ) ~= 'function' ) then return end
 		local row_count = mariadb_get_row_count()
@@ -212,7 +211,7 @@ function queryBuilder:exec( callback )
 
 		-- TODO: Find a better way to handle errors
 		if ( not row_count or row_count == 0 and not row_affected ) then
-			callback( {}, { message = 'Query row count: 0 or something went wrong' } )
+			callback( {}, { message = 'Query row count: 0 or something went wrong', status = 'error' } )
 		end
 
 		-- Handle results
@@ -228,6 +227,7 @@ function queryBuilder:exec( callback )
 		local last_insert_id = mariadb_get_insert_id()
 		if ( last_insert_id ~= nil ) then extras.last_insert_id = last_insert_id end
 		if ( row_affected ~= nil ) then extras.row_affected = row_affected end
+		extras.status = 'success'
 		callback( results, extras )
 	end)
 	
