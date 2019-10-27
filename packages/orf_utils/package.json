@@ -13,13 +13,15 @@
 
 		"server/print.lua",
 
-		"shared/json.lua"
+		"shared/json.lua",
+		"shared/color.lua"
 	],
 	"client_scripts": [
 		"vendor/json.lua",
 
 		"client/ui.lua",
-		"shared/json.lua"
+		"shared/json.lua",
+		"shared/color.lua"
 	],
 	"files": [
 	]
