@@ -8,10 +8,17 @@
 		"core/server/models/account.lua",
 
 		"accounts/server/account_manager.lua",
-		"accounts/server/authentication.lua"
+		"accounts/server/authentication.lua",
+
+		"interaction/server/door.lua",
+		"interaction/server/action.lua",
+
+		"chat/server/chat.lua"
 	],
 	"client_scripts": [
-		"players/client/selection/selection.lua"
+		"players/client/selection/selection.lua",
+
+		"interaction/client/action/action.lua"
 	],
 	"files": [
 		"vendor/client/jquery-3.4.1.min.js",
@@ -23,6 +30,9 @@
 		"vendor/client/themes/default/assets/fonts/outline-icons.ttf",
 
 		"players/client/selection/ui/selection.html",
-		"players/client/selection/ui/selection.js"
+		"players/client/selection/ui/selection.js",
+
+		"interaction/client/action/ui/action.html",
+		"interaction/client/action/ui/action.js"
 	]
 }
