@@ -117,21 +117,16 @@ $(document).ready(() => {
         CallEvent('ORF.AnimationMenu.Close');
     });
 
-    const anim_list = $('#anim_list');
+    const anim_list = $('#animations');
 
     for (const animName in animations) {
         if (animations.hasOwnProperty(animName)) {
             const animDesc = animations[animName];
-            
-            anim_list.append('<div class="four wide column"><button id="anim_' + animName + '" class="ui button">' + animName + '</button ></div>');
-
-            $('#anim_' + animName).click(() => {
-                CallEvent('ORF.AnimationMenu.StartAction', animName, true);
-            });
-
-            $('#anim_' + animName).hover(() => {
-                CallEvent('ORF.AnimationMenu.StartAction', animName, false);
-            });
+            anim_list.append('<a data-name="' + animName + '" class="animation item">' + animName + '</a>');
         }
     }
+
+    $('.animation').click(function() {
+        CallEvent('ORF.AnimationMenu.StartAction', $(this).data('name'), true);
+    });
 });
