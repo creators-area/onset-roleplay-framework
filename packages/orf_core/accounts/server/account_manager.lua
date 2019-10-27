@@ -4,7 +4,7 @@ local accounts = {}
 local roles = {}
 
 function AccountManager:_initRoles( roles )
-
+	roles = roles
 end
 
 function AccountManager:Add( player_id, account )

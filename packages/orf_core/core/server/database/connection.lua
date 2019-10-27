@@ -24,6 +24,8 @@ local function insert_roles_and_permissions()
 			end
 		end)
 	end
+
+	AccountManager:_initRoles( roles )
 end
 
 local function OnPackageStart()
