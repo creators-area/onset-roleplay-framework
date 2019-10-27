@@ -10,14 +10,14 @@
         "script_path":"onset_roleplay_framework.sql"
     },
     "permissions":[
-        { "name":"ban", "description":"Ability to ban someone" },
-        { "name":"kick", "description":"Ability to kick someone" }
+        { "id":1, "name":"ban", "description":"Ability to ban someone" },
+        { "id":2, "name":"kick", "description":"Ability to kick someone" }
     ],
     "roles":{
         "default_role": "user",
         "roles": [
-            { "name":"owner", "description":"Owner of the server", "permissions": [ "ban", "kick" ] },
-            { "name":"user", "description":"Standard user", "permissions": [ "", "" ] }
+            { "id":1,"name":"owner", "description":"Owner of the server", "permissions": [ 1, 2 ] },
+            { "id":2,"name":"user", "description":"Standard user", "permissions": [  ] }
         ]
     }
 }

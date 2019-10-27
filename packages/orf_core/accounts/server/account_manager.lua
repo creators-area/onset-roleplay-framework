@@ -1,6 +1,11 @@
 AccountManager = {}
 
 local accounts = {}
+local roles = {}
+
+function AccountManager:_initRoles( roles )
+
+end
 
 function AccountManager:Add( player_id, account )
 	accounts[ player_id ] = account

@@ -11,13 +11,18 @@ local function insert_roles_and_permissions()
 	local permissions = utils.get_config( GetPackageName(), 'permissions' )
 	for i = 1, #permissions do
 		local permission = permissions[ i ]
-		QueryBuilder:new():raw( 'INSERT IGNORE INTO `permissions` ( `name`, `description` ) VALUES ( \'?\', \'?\' )', permission.name, permission.description ):exec()
+		QueryBuilder:new():raw( 'INSERT IGNORE INTO `permissions` VALUES ( ?, \'?\', \'?\' )', permission.id, permission.name, permission.description ):exec()
 	end
 
 	local roles = utils.get_config( GetPackageName(), 'roles' ).roles
 	for i = 1, #roles do
 		local role = roles[ i ]
-		QueryBuilder:new():raw( 'INSERT IGNORE INTO `roles` ( `name`, `description` ) VALUES ( \'?\', \'?\' )', role.name, role.description ):exec()
+		QueryBuilder:new():raw( 'INSERT IGNORE INTO `roles` VALUES ( ?, \'?\', \'?\' )', role.id, role.name, role.description ):exec(function( results, extras )
+			for j = 1, #role.permissions do
+				local permission = role.permissions[ j ]
+				QueryBuilder:new():raw( 'INSERT IGNORE INTO `roles_has_permissions` VALUES ( ?, ? )', role.id, permission ):exec()
+			end
+		end)
 	end
 end
 
