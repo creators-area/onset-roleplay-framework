@@ -11,7 +11,8 @@ BaseModel._fields = {
 	[ 'CountLogin' ] 	= { type = 'int', field = 'count_login' },
 	[ 'CountKick' ] 	= { type = 'int', field = 'count_kick' },
 	[ 'LastIp' ] 		= { type = 'string', field = 'last_ip' },
-	[ 'CreatedAt' ] 	= { type = 'int', field = 'created_at', updatable = false }
+	[ 'CreatedAt' ] 	= { type = 'int', field = 'created_at', updatable = false },
+	[ 'Color' ]			= { type = 'string', field = 'color' }
 }
 
 BaseModel._table = 'accounts'
@@ -56,6 +57,7 @@ function Account:Update( player, callback )
 	self:SetSteamName( GetPlayerName( player ) )
 	self:SetLocale( GetPlayerLocale( player ) )
 	self:SetLastIp( GetPlayerIP( player ) )
+	self:SetColor( utils.RGB2HEX( HexToRGBA( utils.RandomColor() ) ) )
 	self:DbUpdate( callback, player )
 end
 
@@ -68,6 +70,7 @@ function Account:Register( player, callback )
 	self:SetCountKick( 0 )
 	self:SetLastIp( GetPlayerIP( player ) )
 	self:SetCreatedAt( utils.get_unix_time() )
+	self:SetColor( utils.RGB2HEX( HexToRGBA( utils.RandomColor() ) ) )
 	self:DbSave( callback, player )
 end
 
