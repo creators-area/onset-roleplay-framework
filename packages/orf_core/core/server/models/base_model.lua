@@ -16,7 +16,7 @@ end
 local function get_updatable_field( model )
 	local fields = {}
 	for k, v in pairs( model._fields ) do
-		if ( not v.is_primary_key and v.updatable == nil or v.updatable ) then
+		if ( not v.is_primary_key and ( v.updatable == nil or v.updatable ) and ( v.is_sync == nil or ( v.is_sync ~= nil and v.is_sync ) ) ) then
 			fields[ v.field ] = model[ 'Get' .. k ]()
 		end
 	end
@@ -26,7 +26,7 @@ end
 local function get_insertable_field( model )
 	local fields = {}
 	for k, v in pairs( model._fields ) do
-		if ( v.insertable == nil or v.insertable ~= nil and v.insertable ) then
+		if ( ( v.insertable == nil or ( v.insertable ~= nil and v.insertable ) ) and ( v.is_sync == nil or ( v.is_sync ~= nil and v.is_sync ) ) ) then
 			fields[ v.field ] = model[ 'Get' .. k ]()
 		end
 	end

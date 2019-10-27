@@ -12,7 +12,7 @@ BaseModel._fields = {
 	[ 'CountKick' ] 	= { type = 'int', field = 'count_kick' },
 	[ 'LastIp' ] 		= { type = 'string', field = 'last_ip' },
 	[ 'CreatedAt' ] 	= { type = 'int', field = 'created_at', updatable = false },
-	[ 'Color' ]			= { type = 'string', field = 'color' }
+	[ 'Color' ]			= { type = 'string', field = 'color', is_sync = false }
 }
 
 BaseModel._table = 'accounts'
