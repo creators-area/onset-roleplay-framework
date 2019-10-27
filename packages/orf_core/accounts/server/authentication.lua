@@ -42,7 +42,7 @@ function LoadOrRegisterAccount( player )
 	end)
 end
 
-function GetAccountRoles( player )
+function GetAccountRoles( results, extras, player )
 	print( 'GetAccountRoles', AccountManager:Get( player ):GetSteamName() )
 	-- TODO: Handle query to sync account's roles
 	CallEvent( 'ORF.OnAccountLoad', player )
