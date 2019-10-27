@@ -203,7 +203,10 @@ end
 function QueryBuilder:exec( callback )
 	if ( not self._isRaw ) then self:_build() end
 	local prepared_sql = self._preparedSql
-	if ( not prepared_sql ) then callback( false, { message = 'Cannot prepare query', status = 'error' } ) return end
+	if ( not prepared_sql ) then
+		if ( type( callback ) == 'function' ) then callback( false, { message = 'Cannot prepare query', status = 'error' } ) end
+		return
+	end
 	mariadb_async_query( self._connection, prepared_sql, function()
 		if ( type( callback ) ~= 'function' ) then return end
 		local row_count = mariadb_get_row_count()
