@@ -4,6 +4,8 @@
 	"server_scripts": [
 		"core/server/database/connection.lua",
 		"core/server/database/query_builder.lua",
+		"core/server/database/prepared_queries.lua",
+
 		"core/server/models/base_model.lua",
 		"core/server/models/account.lua",
 

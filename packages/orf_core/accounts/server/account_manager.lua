@@ -26,8 +26,3 @@ end
 function AccountManager:HavePermissionTo( player_id, permission_name )
 
 end
-
-AddRemoteEvent( 'ORF.KickPlayer', function( player, reason )
-	-- TODO: Add permission checker here
-	KickPlayer( player, reason )
-end)

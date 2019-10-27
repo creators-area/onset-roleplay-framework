@@ -31,8 +31,3 @@ local function OnPackageStop()
 	mariadb_close( connection )
 end
 AddEvent( 'OnPackageStop', OnPackageStop )
-
--- OnPlayerServerAuth
--- OnPlayerSteamAuth
--- OnPlayerJoin
--- OnPlayerQuit
