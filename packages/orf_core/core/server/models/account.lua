@@ -28,21 +28,12 @@ end
 
 function Account:LoadRoles( callback, ... )
 	local vargs = { ... }
-	self.Roles = {}
-	QueryBuilder:new():raw( 'SELECT T1.* FROM `roles` AS T1 INNER JOIN `accounts_has_roles` AS T2 ON T1.id = T2.roles_id AND T2.accounts_steamid = \'?\'', self:GetPrimaryKey() ):exec(function( results, extras )
-		if( #results == 0 ) then
-			local roles = utils.get_config( GetPackageName(), 'roles' )
-			local default_role_id = math.tointeger( roles.default_role )
-			QueryBuilder:new():raw( 'INSERT INTO `accounts_has_roles` VALUES ( \'?\', ? )', self:GetPrimaryKey(), default_role_id ):exec()
-			-- FIXME: Have the same role from this to
-			table.insert( self.Roles, roles.roles[ default_role_id ] )
-		else
-			for i = 1, #results do
-				-- FIXME: To this
-				table.insert( self.Roles, results[ i ] )
-			end
+	self.Roles, self.Permissions = {}, {}
+	QueryBuilder:new():raw( database.GET_ACCOUNT_ROLES_AND_PERMISSIONS, self:GetPrimaryKey() ):exec(function( results, extras )
+		for i = 1, #results do
+			self.Roles[ results[ i ][ 'role_name' ] ] = true
+			self.Permission[ results[ i ][ 'permission_name' ] ] = true
 		end
-
 		callback( results, extras, table.unpack( vargs ) )
 	end)
 end
