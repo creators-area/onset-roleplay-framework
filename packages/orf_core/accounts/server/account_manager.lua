@@ -3,6 +3,7 @@ AccountManager = {}
 local accounts = {}
 
 function AccountManager:Add( player_id, account )
+	account._playerId = player_id
 	accounts[ player_id ] = account
 	return accounts[ player_id ]
 end
@@ -17,6 +18,12 @@ end
 
 function AccountManager:Remove( player_id )
 	accounts[ player_id ] = {}
+end
+
+function AccountManager:GetCurrentCharacter( player_id )
+	local account = accounts[ player_id ]
+	if ( not account or account._currentCharacterId == nil or account.Characters == nil or #account.Characters == 0 ) then return nil end
+	return account.Characters[ account._currentCharacterId ]
 end
 
 function AccountManager:HaveRole( player_id, role_name )
