@@ -41,12 +41,25 @@ function BaseModel.new( primary_key )
 	return self
 end
 
+function BaseModel:Load( callback, ... )
+	local vargs = { ... }
+	QueryBuilder:new():select( '*' ):from( self._table ):where( self._PrimaryKeyField, '=', self:GetPrimaryKey() ):exec(function( results, extras )
+		results = results[ 1 ]
+		for k, v in pairs( self._fields ) do
+			if ( results[ v.field ] ~= nil ) then
+				self[ 'Set' .. k ]( self, results[ v.field ] )
+			end
+		end
+		callback( results, extras, table.unpack( vargs ) )
+	end)
+end
+
 function BaseModel:DbUpdate( callback, ... )
 	local vargs = { ... }
 	local updatable_fields = get_updatable_field( self )
 	QueryBuilder:new():update( self._table, updatable_fields ):where( self._PrimaryKeyField, '=', self:GetPrimaryKey()):exec(function( results, extras )
 		if ( type( callback ) == 'function' ) then callback( results, extras, table.unpack( vargs ) ) end
-	end) 
+	end)
 end
 
 function BaseModel:DbSave( callback, ... )
