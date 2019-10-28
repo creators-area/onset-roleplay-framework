@@ -13,11 +13,8 @@
         { "id":1, "name":"ban", "description":"Ability to ban someone" },
         { "id":2, "name":"kick", "description":"Ability to kick someone" }
     ],
-    "roles":{
-        "default_role": "2",
-        "roles": [
-            { "id":1,"name":"owner", "description":"Owner of the server", "permissions": [ 1, 2 ] },
-            { "id":2,"name":"user", "description":"Standard user", "permissions": [  ] }
-        ]
-    }
+    "roles": [
+        { "id":1,"name":"owner", "description":"Owner of the server", "permissions": [ 1, 2 ] },
+        { "id":2,"name":"user", "is_default":1, "description":"Standard user", "permissions": [  ] }
+    ]
 }
