@@ -17,7 +17,7 @@ local function insert_roles_and_permissions()
 	local roles = utils.get_config( GetPackageName(), 'roles' ).roles
 	for i = 1, #roles do
 		local role = roles[ i ]
-		QueryBuilder:new():raw( 'INSERT IGNORE INTO `roles` VALUES ( ?, \'?\', \'?\' )', role.id, role.name, role.description ):exec(function( results, extras )
+		QueryBuilder:new():raw( 'INSERT IGNORE INTO `roles` VALUES ( ?, \'?\', \'?\', ? )', role.id, role.name, role.description, role.is_default ):exec(function( results, extras )
 			for j = 1, #role.permissions do
 				local permission = role.permissions[ j ]
 				QueryBuilder:new():raw( 'INSERT IGNORE INTO `roles_has_permissions` VALUES ( ?, ? )', role.id, permission ):exec()
@@ -25,7 +25,6 @@ local function insert_roles_and_permissions()
 		end)
 	end
 
-	AccountManager:_initRoles( roles )
 end
 
 local function OnPackageStart()
@@ -35,7 +34,6 @@ local function OnPackageStart()
 
 	if ( connection ) then
 		mariadb_set_charset( connection, credentials.charset )
-		-- TODO: Handle use db and remove database name from sql file
 		if ( utils.file_exist( credentials.script_path ) ) then
 			mariadb_await_query_file( connection, credentials.script_path )
 		end
