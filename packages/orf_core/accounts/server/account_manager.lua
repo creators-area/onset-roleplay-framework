@@ -17,7 +17,7 @@ function AccountManager:GetAll()
 end
 
 function AccountManager:Remove( player_id )
-	accounts[ player_id ] = {}
+	accounts[ player_id ] = nil
 end
 
 function AccountManager:GetCurrentCharacter( player_id )

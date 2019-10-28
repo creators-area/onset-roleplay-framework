@@ -66,3 +66,10 @@ AddRemoteEvent( 'ORF.KickPlayer', function( player, reason )
 	-- TODO: Add permission checker here
 	KickPlayer( player, reason )
 end)
+
+AddEvent( 'OnPlayerQuit', function( player )
+	local account = AccountManager:Get( player )
+	account:Update( player, function( player )
+		AccountManager:Remove( player )
+	end)
+end)

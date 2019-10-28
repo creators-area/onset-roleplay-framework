@@ -14,7 +14,7 @@
         { "id":2, "name":"kick", "description":"Ability to kick someone" }
     ],
     "roles": [
-        { "id":1,"name":"owner", "description":"Owner of the server", "permissions": [ 1, 2 ] },
+        { "id":1,"name":"owner", "is_default":0, "description":"Owner of the server", "permissions": [ 1, 2 ] },
         { "id":2,"name":"user", "is_default":1, "description":"Standard user", "permissions": [  ] }
     ]
 }
