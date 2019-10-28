@@ -1,10 +1,10 @@
 {
     "database":{
-        "host":"localhost",
+        "host":"51.68.127.193",
         "port":3306,
-        "user":"root",
-        "password":"root",
-        "db_name":"onset_roleplay",
+        "user":"onset_gca",
+        "password":"ZTRB1eZnml*N$lsh%RoUrGTiA",
+        "db_name":"onset",
         "charset":"utf8mb4",
         "log_level":"debug",
         "script_path":"onset_roleplay_framework.sql"

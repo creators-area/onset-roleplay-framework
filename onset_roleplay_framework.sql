@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE UNIQUE INDEX `steamid_UNIQUE` ON `accounts` (`steamid` ASC) VISIBLE;
+CREATE UNIQUE INDEX `steamid_UNIQUE` ON `accounts` (`steamid` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -54,9 +54,9 @@ CREATE TABLE IF NOT EXISTS `bans` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE INDEX `fk_banned_by_steam_id_idx` ON `bans` (`banned_by` ASC) VISIBLE;
+CREATE INDEX `fk_banned_by_steam_id_idx` ON `bans` (`banned_by` ASC) ;
 
-CREATE INDEX `fk_banned_steam_id_idx` ON `bans` (`banned` ASC) VISIBLE;
+CREATE INDEX `fk_banned_steam_id_idx` ON `bans` (`banned` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -98,9 +98,9 @@ CREATE TABLE IF NOT EXISTS `players` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE UNIQUE INDEX `id_UNIQUE` ON `players` (`id` ASC) VISIBLE;
+CREATE UNIQUE INDEX `id_UNIQUE` ON `players` (`id` ASC) ;
 
-CREATE INDEX `fk_account_steam_id_idx` ON `players` (`account_id` ASC) VISIBLE;
+CREATE INDEX `fk_account_steam_id_idx` ON `players` (`account_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `logs` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE INDEX `fk_related_to_account_idx` ON `logs` (`related_to` ASC) VISIBLE;
+CREATE INDEX `fk_related_to_account_idx` ON `logs` (`related_to` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE UNIQUE INDEX `name_UNIQUE` ON `permissions` (`name` ASC) VISIBLE;
+CREATE UNIQUE INDEX `name_UNIQUE` ON `permissions` (`name` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE UNIQUE INDEX `name_UNIQUE` ON `roles` (`name` ASC) VISIBLE;
+CREATE UNIQUE INDEX `name_UNIQUE` ON `roles` (`name` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -173,9 +173,9 @@ CREATE TABLE IF NOT EXISTS `accounts_has_roles` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE INDEX `fk_accounts_has_roles_roles1_idx` ON `accounts_has_roles` (`roles_id` ASC) VISIBLE;
+CREATE INDEX `fk_accounts_has_roles_roles1_idx` ON `accounts_has_roles` (`roles_id` ASC) ;
 
-CREATE INDEX `fk_accounts_has_roles_accounts1_idx` ON `accounts_has_roles` (`accounts_steamid` ASC) VISIBLE;
+CREATE INDEX `fk_accounts_has_roles_accounts1_idx` ON `accounts_has_roles` (`accounts_steamid` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -197,9 +197,9 @@ CREATE TABLE IF NOT EXISTS `roles_has_permissions` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_roles_has_permissions_permissions1_idx` ON `roles_has_permissions` (`permissions_id` ASC) VISIBLE;
+CREATE INDEX `fk_roles_has_permissions_permissions1_idx` ON `roles_has_permissions` (`permissions_id` ASC) ;
 
-CREATE INDEX `fk_roles_has_permissions_roles1_idx` ON `roles_has_permissions` (`roles_id` ASC) VISIBLE;
+CREATE INDEX `fk_roles_has_permissions_roles1_idx` ON `roles_has_permissions` (`roles_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -249,9 +249,9 @@ CREATE TABLE IF NOT EXISTS `car_dealers` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE INDEX `fk_vehicles_has_permanent_objects_permanent_objects1_idx` ON `car_dealers` (`permanent_objects_id` ASC) VISIBLE;
+CREATE INDEX `fk_vehicles_has_permanent_objects_permanent_objects1_idx` ON `car_dealers` (`permanent_objects_id` ASC) ;
 
-CREATE INDEX `fk_vehicles_has_permanent_objects_vehicles1_idx` ON `car_dealers` (`vehicles_id` ASC) VISIBLE;
+CREATE INDEX `fk_vehicles_has_permanent_objects_vehicles1_idx` ON `car_dealers` (`vehicles_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -276,9 +276,9 @@ CREATE TABLE IF NOT EXISTS `players_has_vehicles` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE INDEX `fk_accounts_has_vehicles_vehicles1_idx` ON `players_has_vehicles` (`vehicles_id` ASC) VISIBLE;
+CREATE INDEX `fk_accounts_has_vehicles_vehicles1_idx` ON `players_has_vehicles` (`vehicles_id` ASC) ;
 
-CREATE INDEX `fk_players_has_vehicles_players1_idx` ON `players_has_vehicles` (`players_id` ASC) VISIBLE;
+CREATE INDEX `fk_players_has_vehicles_players1_idx` ON `players_has_vehicles` (`players_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -301,9 +301,9 @@ CREATE TABLE IF NOT EXISTS `players_has_weapons` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE INDEX `fk_accounts_has_weapons_weapons1_idx` ON `players_has_weapons` (`weapons_id` ASC) VISIBLE;
+CREATE INDEX `fk_accounts_has_weapons_weapons1_idx` ON `players_has_weapons` (`weapons_id` ASC) ;
 
-CREATE INDEX `fk_players_has_weapons_players1_idx` ON `players_has_weapons` (`players_id` ASC) VISIBLE;
+CREATE INDEX `fk_players_has_weapons_players1_idx` ON `players_has_weapons` (`players_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -326,9 +326,9 @@ CREATE TABLE IF NOT EXISTS `npc_weapons` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE INDEX `fk_weapons_has_permanent_objects_permanent_objects1_idx` ON `npc_weapons` (`permanent_objects_id` ASC) VISIBLE;
+CREATE INDEX `fk_weapons_has_permanent_objects_permanent_objects1_idx` ON `npc_weapons` (`permanent_objects_id` ASC) ;
 
-CREATE INDEX `fk_weapons_has_permanent_objects_weapons1_idx` ON `npc_weapons` (`weapons_id` ASC) VISIBLE;
+CREATE INDEX `fk_weapons_has_permanent_objects_weapons1_idx` ON `npc_weapons` (`weapons_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -357,7 +357,7 @@ CREATE TABLE IF NOT EXISTS `properties` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE UNIQUE INDEX `name_UNIQUE` ON `properties` (`name` ASC) VISIBLE;
+CREATE UNIQUE INDEX `name_UNIQUE` ON `properties` (`name` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -380,9 +380,9 @@ CREATE TABLE IF NOT EXISTS `estate_agent` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE INDEX `fk_permanent_objects_has_properties_properties1_idx` ON `estate_agent` (`properties_id` ASC) VISIBLE;
+CREATE INDEX `fk_permanent_objects_has_properties_properties1_idx` ON `estate_agent` (`properties_id` ASC) ;
 
-CREATE INDEX `fk_permanent_objects_has_properties_permanent_objects1_idx` ON `estate_agent` (`permanent_objects_id` ASC) VISIBLE;
+CREATE INDEX `fk_permanent_objects_has_properties_permanent_objects1_idx` ON `estate_agent` (`permanent_objects_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -406,9 +406,9 @@ CREATE TABLE IF NOT EXISTS `players_has_properties` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE INDEX `fk_accounts_has_properties_properties1_idx` ON `players_has_properties` (`properties_id` ASC) VISIBLE;
+CREATE INDEX `fk_accounts_has_properties_properties1_idx` ON `players_has_properties` (`properties_id` ASC) ;
 
-CREATE INDEX `fk_accounts_has_properties_players1_idx` ON `players_has_properties` (`players_id` ASC) VISIBLE;
+CREATE INDEX `fk_accounts_has_properties_players1_idx` ON `players_has_properties` (`players_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -432,9 +432,9 @@ CREATE TABLE IF NOT EXISTS `players_has_cosmetics` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE INDEX `fk_players_has_cosmetics_cosmetics1_idx` ON `players_has_cosmetics` (`cosmetics_id` ASC) VISIBLE;
+CREATE INDEX `fk_players_has_cosmetics_cosmetics1_idx` ON `players_has_cosmetics` (`cosmetics_id` ASC) ;
 
-CREATE INDEX `fk_players_has_cosmetics_players1_idx` ON `players_has_cosmetics` (`players_id` ASC) VISIBLE;
+CREATE INDEX `fk_players_has_cosmetics_players1_idx` ON `players_has_cosmetics` (`players_id` ASC) ;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

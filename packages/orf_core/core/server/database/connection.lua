@@ -14,7 +14,7 @@ local function insert_roles_and_permissions()
 		QueryBuilder:new():raw( 'INSERT IGNORE INTO `permissions` VALUES ( ?, \'?\', \'?\' )', permission.id, permission.name, permission.description ):exec()
 	end
 
-	local roles = utils.get_config( GetPackageName(), 'roles' ).roles
+	local roles = utils.get_config( GetPackageName(), 'roles' )
 	for i = 1, #roles do
 		local role = roles[ i ]
 		QueryBuilder:new():raw( 'INSERT IGNORE INTO `roles` VALUES ( ?, \'?\', \'?\', ? )', role.id, role.name, role.description, role.is_default ):exec(function( results, extras )
