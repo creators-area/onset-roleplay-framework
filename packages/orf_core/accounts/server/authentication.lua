@@ -4,15 +4,14 @@ local utils = ImportPackage( 'orf_utils' )
 AddEvent( 'OnPlayerSteamAuth', function( player )
 	local steam_id = tostring( GetPlayerSteamId( player ) )
 
-	QueryBuilder:new():raw( database.GET_ACCOUNT_BANS_FOR_STEAMID, steam_id ):exec(function( results, extras )
-		if( #results >= 1 ) then
+	database.asyncQuery( database.GET_ACCOUNT_BANS_FOR_STEAMID, { steam_id }, function( results )
+		if ( type( results ) == 'table' and #results >= 1 ) then
 			local reason = ( 'You\'re permanently banned for the following reason: %s' ):format( results[ 1 ].reason )
 			if ( results[ 1 ].expire_ban ) then
 				reason = ( 'You\'re banned until the %s for the following reason: %s' ):format( utils.format_unix_time( results[ 1 ].expire_ban ), results[ 1 ].reason )
 			end
 			KickPlayer( player, reason )
 		end
-		
 		LoadOrRegisterAccount( player )
 	end)
 end)
@@ -21,29 +20,29 @@ function LoadOrRegisterAccount( player )
 	local steam_id = tostring( GetPlayerSteamId( player ) )
 
 	-- Check if account is allready register or not
-	QueryBuilder:new():raw( database.GET_COUNT_ACCOUNT_FOR_STEAMID, steam_id ):exec(function( results, extras )
+	database.asyncQuery( database.GET_COUNT_ACCOUNT_FOR_STEAMID, { steam_id }, function( results )
 		results = results[ 1 ]
 		local count_results = math.tointeger( results[ 'count' ] )
-		local account = AccountManager:Add( player, Account.new( steam_id ) )
+		local account = AccountManager:Add( Account.new( steam_id, player ) )
 
 		-- If player is register then load his account
 		if ( count_results ~= nil and count_results >= 1 ) then
 			-- Load all data from primary key
-			account:Load(function( results, extras )
+			account:Load(function()
 				-- Increment login count by one
 				account:IncrementLoginCount()
 				-- Just update the account in db
-				account:Update( player, GetAccountRoles )
+				account:Update( GetAccountRoles )
 			end)
 		else
 			-- Register the account for the first time
-			account:Register( player, GetAccountRoles )
+			account:Register( GetAccountRoles )
 		end
 	end)
 end
 
 function GetAccountRoles( results, extras, player )
-	AccountManager:Get( player ):LoadRoles(function( results, extras )
+	AccountManager:Get( player ):LoadRoles(function()
 		CallEvent( 'ORF.OnAccountLoad', player )
 	end)
 end
@@ -68,8 +67,8 @@ AddRemoteEvent( 'ORF.KickPlayer', function( player, reason )
 end)
 
 AddEvent( 'OnPlayerQuit', function( player )
-	local account = AccountManager:Get( player )
-	account:Update( player, function( player )
+	-- Update player data before leave and then remove from the manager
+	AccountManager:Get( player ):Update( function()
 		AccountManager:Remove( player )
 	end)
 end)

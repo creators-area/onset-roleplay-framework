@@ -2,8 +2,7 @@ AccountManager = {}
 
 local accounts = {}
 
-function AccountManager:Add( player_id, account )
-	account._playerId = player_id
+function AccountManager:Add( account )
 	accounts[ player_id ] = account
 	return accounts[ player_id ]
 end

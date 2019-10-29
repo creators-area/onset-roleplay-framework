@@ -18,8 +18,10 @@ BaseModel._fields = {
 
 BaseModel._table = 'accounts'
 
-function Account.new( primary_key )
-	return setmetatable( BaseModel.new( primary_key ), Account )
+function Account.new( primary_key, player_id )
+	local acc = setmetatable( BaseModel.new( primary_key ), Account )
+	acc._playerId = player_id
+	return acc
 end
 
 function Account:IncrementLoginCount()
@@ -27,37 +29,37 @@ function Account:IncrementLoginCount()
 	return self
 end
 
-function Account:Update( player, callback )
-	self:SetGameVersion( GetPlayerGameVersion( player ) )
-	self:SetSteamName( GetPlayerName( player ) )
-	self:SetLocale( GetPlayerLocale( player ) )
-	self:SetLastIp( GetPlayerIP( player ) )
+function Account:Update( callback )
+	self:SetGameVersion( GetPlayerGameVersion( self._playerId ) )
+	self:SetSteamName( GetPlayerName( self._playerId ) )
+	self:SetLocale( GetPlayerLocale( self._playerId ) )
+	self:SetLastIp( GetPlayerIP( self._playerId ) )
 	self:SetColor( utils.RGB2HEX( HexToRGBA( utils.RandomColor() ) ) )
-	self:DbUpdate( callback, player )
+	self:DbUpdate( callback )
 end
 
-function Account:Register( player, callback )
-	self:SetSteamId( tostring( GetPlayerSteamId( player ) ) )
-	self:SetGameVersion( GetPlayerGameVersion( player ) )
-	self:SetSteamName( GetPlayerName( player ) )
-	self:SetLocale( GetPlayerLocale( player ) )
+function Account:Register( callback )
+	self:SetSteamId( tostring( GetPlayerSteamId( self._playerId ) ) )
+	self:SetGameVersion( GetPlayerGameVersion( self._playerId ) )
+	self:SetSteamName( GetPlayerName( self._playerId ) )
+	self:SetLocale( GetPlayerLocale( self._playerId ) )
 	self:SetCountLogin( 1 )
 	self:SetCountKick( 0 )
-	self:SetLastIp( GetPlayerIP( player ) )
+	self:SetLastIp( GetPlayerIP( self._playerId ) )
 	self:SetCreatedAt( utils.get_unix_time() )
 	self:SetColor( utils.RGB2HEX( HexToRGBA( utils.RandomColor() ) ) )
-	self:DbSave( callback, player )
+	self:DbSave( callback )
 end
 
 function Account:GetCharacters( callback, ... )
 	local vargs = { ... }
 	self.Characters = {}
-	QueryBuilder:new():select( 'id' ):from( 'players' ):where( 'account_id', '=', self:GetPrimaryKey() ):exec(function( results, extras )
+	database.asyncQuery( 'SELECT id FROM `players` WHERE account_id = ?', { self:GetPrimaryKey() }, function( results )
 		for i = 1, #results do
 			local result = results[ i ]
 			self.Characters[ result.id ] = Character.new( result.id )
 		end
-		callback( results, extras, table.unpack( vargs ) )
+		callback( results, table.unpack( vargs ) )
 	end)
 end
 
@@ -72,12 +74,12 @@ end
 function Account:LoadRoles( callback, ... )
 	local vargs = { ... }
 	self.Roles, self.Permissions = {}, {}
-	QueryBuilder:new():raw( database.GET_ACCOUNT_ROLES_AND_PERMISSIONS, self:GetPrimaryKey() ):exec(function( results, extras )
+	database.asyncQuery( database.GET_ACCOUNT_ROLES_AND_PERMISSIONS, { self:GetPrimaryKey() }, function( results )
 		for i = 1, #results do
 			self.Roles[ results[ i ][ 'role_name' ] ] = true
 			self.Permission[ results[ i ][ 'permission_name' ] ] = true
 		end
-		callback( results, extras, table.unpack( vargs ) )
+		callback( results, table.unpack( vargs ) )
 	end)
 end
 

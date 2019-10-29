@@ -14,58 +14,66 @@ local function init_accessors( model )
 end
 
 local function get_updatable_field( model )
-	local fields = {}
+	local fields, values = {}, {}
 	for k, v in pairs( model._fields ) do
 		if ( not v.is_primary_key and ( v.updatable == nil or v.updatable ) and ( v.is_sync == nil or ( v.is_sync ~= nil and v.is_sync ) ) ) then
-			fields[ v.field ] = model[ 'Get' .. k ]()
+			table.insert( fields, v.field )
+			table.insert( values, model[ 'Get' .. k ]() )
 		end
 	end
-	return fields
+	return fields, values
 end
 
 local function get_insertable_field( model )
-	local fields = {}
+	local fields, values = {}, {}
 	for k, v in pairs( model._fields ) do
 		if ( ( v.insertable == nil or ( v.insertable ~= nil and v.insertable ) ) and ( v.is_sync == nil or ( v.is_sync ~= nil and v.is_sync ) ) ) then
-			fields[ v.field ] = model[ 'Get' .. k ]()
+			table.insert( fields, v.field )
+			table.insert( values, model[ 'Get' .. k ]() )
 		end
 	end
-	return fields
+	return fields, values
 end
 
 function BaseModel.new( primary_key )
-	local self = setmetatable( {
+	local base = setmetatable( {
 		_primaryKey = primary_key
 	}, BaseModel )
-	init_accessors( self )
-	return self
+	init_accessors( base )
+	return base
 end
 
 function BaseModel:Load( callback, ... )
 	local vargs = { ... }
-	QueryBuilder:new():select( '*' ):from( self._table ):where( self._PrimaryKeyField, '=', self:GetPrimaryKey() ):exec(function( results, extras )
+	local query = ( 'SELECT * FROM `%s` WHERE %s = ? LIMIT 1' ):format( self._table, self._PrimaryKeyField )
+	database.asyncQuery( query, { self:GetPrimaryKey() }, function( results )
 		results = results[ 1 ]
 		for k, v in pairs( self._fields ) do
 			if ( results[ v.field ] ~= nil ) then
 				self[ 'Set' .. k ]( self, results[ v.field ] )
 			end
 		end
-		callback( results, extras, table.unpack( vargs ) )
+		callback( results, table.unpack( vargs ) )
 	end)
 end
 
 function BaseModel:DbUpdate( callback, ... )
 	local vargs = { ... }
-	local updatable_fields = get_updatable_field( self )
-	QueryBuilder:new():update( self._table, updatable_fields ):where( self._PrimaryKeyField, '=', self:GetPrimaryKey()):exec(function( results, extras )
-		if ( type( callback ) == 'function' ) then callback( results, extras, table.unpack( vargs ) ) end
+	local fields, values = get_updatable_field( self )
+	local query = ( 'UPDATE `%s` SET %s WHERE %s = ?' ):format( self._table, table.concat( fields, '= ? ' ), self._PrimaryKeyField )
+	table.insert( values, self:GetPrimaryKey() )
+	database.asyncQuery( query, values, function( results )
+		if ( type( callback ) == 'function' ) then callback( results, table.unpack( vargs ) ) end
 	end)
 end
 
 function BaseModel:DbSave( callback, ... )
 	local vargs = { ... }
-	local insertable_fields = get_insertable_field( self )
-	QueryBuilder:new():insert( self._table, insertable_fields ):exec(function( results, extras )
+	local fields, values = get_insertable_field( self )
+	local prepared_values = {}
+	for i = 1, #values do prepared_values[ i ] = '?' end
+	local query = ( 'INSERT INTO `%s` ( %s ) VAUES ( %s )' ):format( self._table, table.concat( fields, ', ' ), table.concat( prepared_values, ', ' ) )
+	database.asyncQuery( query, values, function( results )
 		if ( type( callback ) == 'function' ) then callback( results, extras, table.unpack( vargs ) ) end
 	end)
 end
