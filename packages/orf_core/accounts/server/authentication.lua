@@ -41,9 +41,11 @@ function LoadOrRegisterAccount( player )
 	end)
 end
 
-function GetAccountRoles( results, extras, player )
-	AccountManager:Get( player ):LoadRoles(function()
-		CallEvent( 'ORF.OnAccountLoad', player )
+function GetAccountRoles( _, player_id )
+	AccountManager:Get( player_id ):LoadRoles(function()
+		AccountManager:Get( player_id ):GetCharacters( function()
+			CallEvent( 'ORF.OnAccountLoad', player )
+		end)
 	end)
 end
 

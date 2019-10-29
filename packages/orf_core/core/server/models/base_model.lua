@@ -60,7 +60,8 @@ end
 function BaseModel:DbUpdate( callback, ... )
 	local vargs = { ... }
 	local fields, values = get_updatable_field( self )
-	local query = ( 'UPDATE `%s` SET %s WHERE %s = ?' ):format( self._table, table.concat( fields, '= ? ' ), self._PrimaryKeyField )
+	for i = 1, #fields do fields[ i ] = fields[ i ] .. ( type( values[ i ] ) == 'string' and " = '?'" or ' = ?' ) end
+	local query = ( 'UPDATE `%s` SET %s WHERE %s = ?' ):format( self._table, table.concat( fields, ', ' ), self._PrimaryKeyField )
 	table.insert( values, self:GetPrimaryKey() )
 	database.asyncQuery( query, values, function( results )
 		if ( type( callback ) == 'function' ) then callback( results, table.unpack( vargs ) ) end
@@ -71,7 +72,9 @@ function BaseModel:DbSave( callback, ... )
 	local vargs = { ... }
 	local fields, values = get_insertable_field( self )
 	local prepared_values = {}
-	for i = 1, #values do prepared_values[ i ] = '?' end
+	for i = 1, #values do
+		prepared_values[ i ] = type( values[ i ] ) == 'string' and "'?'" or '?'
+	end
 	local query = ( 'INSERT INTO `%s` ( %s ) VAUES ( %s )' ):format( self._table, table.concat( fields, ', ' ), table.concat( prepared_values, ', ' ) )
 	database.asyncQuery( query, values, function( results )
 		if ( type( callback ) == 'function' ) then callback( results, extras, table.unpack( vargs ) ) end

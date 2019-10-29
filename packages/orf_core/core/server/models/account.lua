@@ -35,7 +35,7 @@ function Account:Update( callback )
 	self:SetLocale( GetPlayerLocale( self._playerId ) )
 	self:SetLastIp( GetPlayerIP( self._playerId ) )
 	self:SetColor( utils.RGB2HEX( HexToRGBA( utils.RandomColor() ) ) )
-	self:DbUpdate( callback )
+	self:DbUpdate( callback, self._playerId )
 end
 
 function Account:Register( callback )
@@ -48,7 +48,7 @@ function Account:Register( callback )
 	self:SetLastIp( GetPlayerIP( self._playerId ) )
 	self:SetCreatedAt( utils.get_unix_time() )
 	self:SetColor( utils.RGB2HEX( HexToRGBA( utils.RandomColor() ) ) )
-	self:DbSave( callback )
+	self:DbSave( callback, self._playerId )
 end
 
 function Account:GetCharacters( callback, ... )

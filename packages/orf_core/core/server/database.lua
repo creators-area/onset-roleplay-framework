@@ -118,8 +118,9 @@ end)
 -- Used to create the defaults database scheme
 AddEvent( 'ORF.OnDatabaseCreated', function()
 	local script_path = utils.get_config( GetPackageName(), 'database' ).script_path
-	if ( utils.file_exist( script_path ) ) then
-		mariadb_await_query_file( database.GetConnection(), script_path )
-	end
+	-- TODO: Handle full database creation
+	-- if ( utils.file_exist( script_path ) ) then
+	-- 	mariadb_await_query_file( database.GetConnection(), script_path )
+	-- end
 	insert_roles_and_permissions()
 end)

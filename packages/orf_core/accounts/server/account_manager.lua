@@ -3,8 +3,8 @@ AccountManager = {}
 local accounts = {}
 
 function AccountManager:Add( account )
-	accounts[ player_id ] = account
-	return accounts[ player_id ]
+	accounts[ account._playerId ] = account
+	return accounts[ account._playerId ]
 end
 
 function AccountManager:Get( player_id )
