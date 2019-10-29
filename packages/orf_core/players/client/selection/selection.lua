@@ -19,28 +19,18 @@ function OnKeyPress( key )
 end
 AddEvent( 'OnKeyPress', OnKeyPress )
 
-function toggle_ui_visiblity()
+function toggle_ui_visiblity( characters )
 	if ( not selection_ui ) then create_web_ui() end
 	AddPlayerChat( 'Selection:toggle_ui_visiblity' )
 	local is_visible = GetWebVisibility( selection_ui ) == 1
 	ShowMouseCursor( not is_visible )
 	SetInputMode( not is_visible and INPUT_UI or INPUT_GAME )
 	SetWebVisibility( selection_ui, not is_visible and WEB_VISIBLE or WEB_HIDDEN )
+
+	utils.SendPayloadToWebJS( selection_ui, 'loadCharacters', characters )
 end
 AddRemoteEvent( 'ORF.PlayerSelectionToggleVisiblity', toggle_ui_visiblity )
 
 -- Html call/send events
 
-function LeaveServer()
-	CallRemoteEvent( 'ORF.KickPlayer', 'You have successfully left the server.' )
-end
-AddEvent( 'ORF.PlayerSelection:LeaveServer', LeaveServer )
-
-function SendCharactersInformation()
-	utils.SendPayloadToWebJS( selection_ui, 'onReceiveData', { test = 'player 1' }, 'test' )
-end
-AddEvent( 'ORF.Test', SendCharactersInformation )
-
-AddEvent( 'ORF.OnAccountLoad', function( player )
-
-end)
+AddEvent( 'ORF.PlayerSelection:LeaveServer', function() CallRemoteEvent( 'ORF.KickPlayer', 'You have successfully left the server.' ) end )
