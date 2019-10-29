@@ -13,16 +13,17 @@ function Character.new( primary_key )
 end
 
 function Character:Load( callback, ... )
-	-- local vargs = { ... }
-	-- QueryBuilder:new():select( '*' ):from( self._table ):where( self._PrimaryKeyField, '=', self:GetPrimaryKey() ):exec(function( results, extras )
-	-- 	results = results[ 1 ]
-	-- 	for k, v in pairs( self._fields ) do
-	-- 		if ( results[ v.field ] ~= nil ) then
-	-- 			self[ 'Set' .. k ]( self, results[ v.field ] )
-	-- 		end
-	-- 	end
-	-- 	callback( results, extras, table.unpack( vargs ) )
-	-- end)
+	local vargs = { ... }
+	local query ( 'SELECT * FROM `%s` WHERE %s = ? LIMIT 1' ):format( self._table, self._PrimaryKeyField )
+	database.asyncQuery( query, { self:GetPrimaryKey() }, function( results )
+		results = results[ 1 ]
+		for k, v in pairs( self._fields ) do
+			if ( results[ v.field ] ~= nil ) then
+				self[ 'Set' .. k ]( self, results[ v.field ] )
+			end
+		end
+		callback( results, table.unpack( vargs ) )
+	end)
 end
 
 function Character:Update( player, callback )
