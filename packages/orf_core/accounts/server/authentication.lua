@@ -50,12 +50,12 @@ function GetAccountRoles( _, player_id )
 end
 
 AddEvent( 'OnPlayerJoin', function( player )
-	SetPlayerSpawnLocation( player, 128589.000000, 78889.000000, 1576.000000, 90.0 )
+	SetPlayerSpawnLocation( player, 129532.515625, 78592.75, 1566.9007568359, 0 )
 end)
 
 AddEvent( 'ORF.OnAccountLoad', function( player )
 	local account = AccountManager:Get( player )
-	SetPlayerLocation( player, 128589.000000, 78889.000000, 1576.000000, 90.0 )
+	SetPlayerLocation( player, 129532.515625, 78592.75, 1566.9007568359 )
 	SetPlayerModel( player, 5 )
 	SetPlayerName( player, account:GetSteamName() )
 

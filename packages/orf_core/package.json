@@ -17,6 +17,7 @@
 	],
 	"client_scripts": [
 		"players/client/selection/selection.lua",
+		"players/client/creation/creation.lua",
 
 		"interaction/client/action/action.lua"
 	],
@@ -31,6 +32,9 @@
 
 		"players/client/selection/ui/selection.html",
 		"players/client/selection/ui/selection.js",
+
+		"players/client/creation/ui/creation.html",
+		"players/client/creation/ui/creation.js",
 
 		"interaction/client/action/ui/action.html",
 		"interaction/client/action/ui/action.js"

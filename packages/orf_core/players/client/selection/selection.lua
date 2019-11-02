@@ -1,36 +1,49 @@
 local utils = ImportPackage( 'orf_utils' )
 local selection_ui = nil
 
-function create_web_ui()
-	selection_ui = CreateWebUI( 0, 0, 0, 0, 10, 16 )
+local function create_web_ui()
+	selection_ui = CreateWebUI( 0, 0, 0, 0, 32, 16 )
 	SetWebAlignment( selection_ui, 0, 0 )
 	SetWebAnchors( selection_ui, 0, 0, 1, 1 )
 	LoadWebFile( selection_ui, ( 'http://asset/%s/players/client/selection/ui/selection.html' ):format( GetPackageName() ) )
 	SetWebVisibility( selection_ui, WEB_HIDDEN )
 end
 
-function OnPackageStop()
-	DestroyWebUI( selection_ui )
+local function OnPackageStop()
+	if ( selection_ui ~= nil ) then DestroyWebUI( selection_ui ) end
 end
 AddEvent( 'OnPackageStop', OnPackageStop )
 
-function OnKeyPress( key )
+local function OnKeyPress( key )
 
 end
 AddEvent( 'OnKeyPress', OnKeyPress )
 
-function toggle_ui_visiblity( characters )
+local function toggle_ui_visiblity( characters )
 	if ( not selection_ui ) then create_web_ui() end
-	AddPlayerChat( 'Selection:toggle_ui_visiblity' )
+	
+	SetCameraViewDistance( 1 )
+	SetCameraRotation( 0, 180, 0 )
+	SetCameraLocation( 129879.734375, 78550, 1656.2053222656 )
+
 	local is_visible = GetWebVisibility( selection_ui ) == 1
 	ShowMouseCursor( not is_visible )
 	SetInputMode( not is_visible and INPUT_UI or INPUT_GAME )
 	SetWebVisibility( selection_ui, not is_visible and WEB_VISIBLE or WEB_HIDDEN )
 
-	utils.SendPayloadToWebJS( selection_ui, 'loadCharacters', characters )
+	if ( type( characters ) == 'table' ) then
+		utils.SendPayloadToWebJS( selection_ui, 'loadCharacters', characters )
+	end
 end
 AddRemoteEvent( 'ORF.PlayerSelectionToggleVisiblity', toggle_ui_visiblity )
 
 -- Html call/send events
 
-AddEvent( 'ORF.PlayerSelection:LeaveServer', function() CallRemoteEvent( 'ORF.KickPlayer', 'You have successfully left the server.' ) end )
+AddEvent( 'ORF.PlayerSelection:LeaveServer', function() 
+	allRemoteEvent( 'ORF.KickPlayer', 'You have successfully left the server.' )
+end )
+
+AddEvent( 'ORF.PlayerSelection:CreateCharacter', function()
+	toggle_ui_visiblity()
+	CallEvent( 'ORF.PlayerCreationToggleVisiblity' )
+end)
