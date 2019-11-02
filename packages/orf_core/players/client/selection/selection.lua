@@ -40,7 +40,7 @@ AddRemoteEvent( 'ORF.PlayerSelectionToggleVisiblity', toggle_ui_visiblity )
 -- Html call/send events
 
 AddEvent( 'ORF.PlayerSelection:LeaveServer', function() 
-	allRemoteEvent( 'ORF.KickPlayer', 'You have successfully left the server.' )
+	CallRemoteEvent( 'ORF.KickPlayer', 'You have successfully left the server.' )
 end )
 
 AddEvent( 'ORF.PlayerSelection:CreateCharacter', function()
