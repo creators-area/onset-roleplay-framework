@@ -32,5 +32,15 @@ AddCommand("gas", cmd_gas)
 function cmd_getpos(player)
 	local x, y, z = GetPlayerLocation( player )
 	AddPlayerChat( player, table.concat( { x, y, z }, ', ' ) )
+	print( table.concat( { x, y, z }, ', ' ) )
 end
 AddCommand("getpos", cmd_getpos)
+
+
+function info(player)
+	print( 'GetPlayerLocation()' )
+	local x, y, z = GetPlayerLocation(player)
+	print( x, y, z )
+	CallRemoteEvent( player, 'DEV.GetInfo' )
+end
+AddCommand('info', info)
