@@ -11,7 +11,8 @@
     },
     "permissions":[
         { "id":1, "name":"ban", "description":"Ability to ban someone" },
-        { "id":2, "name":"kick", "description":"Ability to kick someone" }
+        { "id":2, "name":"kick", "description":"Ability to kick someone" },
+        { "id":3, "name":"open_admin_menu", "description":"Ability to open admin menu" }
     ],
     "roles": [
         { "id":1,"name":"owner", "is_default":0, "description":"Owner of the server", "permissions": [ 1, 2 ] },

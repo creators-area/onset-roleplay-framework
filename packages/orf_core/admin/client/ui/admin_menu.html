@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ORF - Character creation</title>
+    
+    <link rel="stylesheet" href="http://asset/orf_core/vendor/client/semantic.min.css">
+    <style>
+        body {
+            background:none;
+            background-color:rgba( 0, 0, 0, 0.2 );
+        }
+    </style>
+</head>
+<body>
+    Admin Menu
+    
+    <script src="http://asset/orf_core/vendor/client/jquery-3.4.1.min.js"></script>
+    <script src="http://asset/orf_core/vendor/client/semantic.min.js"></script>
+    <script src="http://asset/orf_core/admin/client/ui/admin_menu.js"></script>
+    <script>
+        (function(obj) {
+            ue.game = {};
+            ue.game.callevent = function(name, ...args) {
+                if (typeof(name) !== 'string') return;
+                obj.callevent(name, args.length > 0 ? JSON.stringify(args) : '')
+            };
+        })(ue.game);
+        CallEvent = ue.game.callevent;
+    </script>
+</body>

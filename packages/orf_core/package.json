@@ -13,7 +13,9 @@
 		"interaction/server/door.lua",
 		"interaction/server/action.lua",
 
-		"chat/server/chat.lua"
+		"chat/server/chat.lua",
+
+		"admin/server/commande.lua"
 	],
 	"client_scripts": [
 		"players/client/selection/selection.lua",
