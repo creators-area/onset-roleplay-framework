@@ -6,9 +6,9 @@
 
 		"core/server/models/base_model.lua",
 		"core/server/models/account.lua",
+		"core/server/account_manager.lua",
 
-		"accounts/server/account_manager.lua",
-		"accounts/server/authentication.lua",
+		"spawn/server/spawn.lua",
 
 		"interaction/server/door.lua",
 		"interaction/server/action.lua",

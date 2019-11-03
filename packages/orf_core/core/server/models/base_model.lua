@@ -75,7 +75,7 @@ function BaseModel:DbSave( callback, ... )
 	for i = 1, #values do
 		prepared_values[ i ] = type( values[ i ] ) == 'string' and "'?'" or '?'
 	end
-	local query = ( 'INSERT INTO `%s` ( %s ) VAUES ( %s )' ):format( self._table, table.concat( fields, ', ' ), table.concat( prepared_values, ', ' ) )
+	local query = ( 'INSERT INTO `%s` ( %s ) VALUES ( %s )' ):format( self._table, table.concat( fields, ', ' ), table.concat( prepared_values, ', ' ) )
 	database.asyncQuery( query, values, function( results )
 		if ( type( callback ) == 'function' ) then callback( results, extras, table.unpack( vargs ) ) end
 	end)

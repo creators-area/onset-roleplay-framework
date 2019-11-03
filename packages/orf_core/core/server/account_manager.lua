@@ -1,31 +1,32 @@
-AccountManager = {}
+ORF = ORF or {}
+ORF.AccountManager = {}
 
 local accounts = {}
 
-function AccountManager:Add( account )
+function ORF.AccountManager:Add( account )
 	accounts[ account._playerId ] = account
 	return accounts[ account._playerId ]
 end
 
-function AccountManager:Get( player_id )
+function ORF.AccountManager:Get( player_id )
 	return accounts[ player_id ] or {}
 end
 
-function AccountManager:GetAll()
+function ORF.AccountManager:GetAll()
 	return accounts or {}
 end
 
-function AccountManager:Remove( player_id )
+function ORF.AccountManager:Remove( player_id )
 	accounts[ player_id ] = nil
 end
 
-function AccountManager:GetCurrentCharacter( player_id )
+function ORF.AccountManager:GetCurrentCharacter( player_id )
 	local account = accounts[ player_id ]
 	if ( not account or account._currentCharacterId == nil or account.Characters == nil or #account.Characters == 0 ) then return nil end
 	return account.Characters[ account._currentCharacterId ]
 end
 
-function AccountManager:HaveRole( player_id, role_name )
+function ORF.AccountManager:HaveRole( player_id, role_name )
 	local account = accounts[ player_id ]
 	if ( not account ) then return false end
 	local roles = account.Roles
@@ -33,7 +34,7 @@ function AccountManager:HaveRole( player_id, role_name )
 	return account.Roles[ role_name ]
 end
 
-function AccountManager:HavePermissionTo( player_id, permission_name )
+function ORF.AccountManager:HavePermissionTo( player_id, permission_name )
 	local account = accounts[ player_id ]
 	if ( not account ) then return false end
 	local permissions = account.Permissions
