@@ -38,6 +38,6 @@ function ORF.AccountManager:HavePermissionTo( player_id, permission_name )
 	local account = accounts[ player_id ]
 	if ( not account ) then return false end
 	local permissions = account.Permissions
-	if ( not permissions or #permissions == 0 ) then return false end
+	if ( type( permissions ) ~= 'table' ) then return false end
 	return account.Permissions[ permission_name ]
 end

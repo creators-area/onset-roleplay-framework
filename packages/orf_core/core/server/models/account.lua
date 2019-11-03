@@ -77,7 +77,7 @@ function Account:LoadRoles( callback, ... )
 	database.asyncQuery( database.GET_ACCOUNT_ROLES_AND_PERMISSIONS, { self:GetPrimaryKey() }, function( results )
 		for i = 1, #results do
 			self.Roles[ results[ i ][ 'role_name' ] ] = true
-			self.Permission[ results[ i ][ 'permission_name' ] ] = true
+			self.Permissions[ results[ i ][ 'permission_name' ] ] = true
 		end
 		callback( results, table.unpack( vargs ) )
 	end)
