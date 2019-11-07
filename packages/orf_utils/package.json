@@ -12,6 +12,7 @@
 		"server/time.lua",
 
 		"server/print.lua",
+		"server/player.lua",
 
 		"shared/json.lua",
 		"shared/color.lua"

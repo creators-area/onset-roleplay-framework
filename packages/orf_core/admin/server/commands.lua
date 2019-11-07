@@ -1,3 +1,5 @@
+local utils = ImportPackage( 'orf_utils' )
+
 AddCommand( 'admin', function( player )
     if ( ORF.AccountManager:HavePermissionTo( player, 'open_admin_menu' ) ) then
         CallRemoteEvent( player, 'ORF.OpenAdminMenu' )
@@ -13,13 +15,16 @@ AddCommand( 'kick', function( player, target_name, reason )
         return
     end
 
-    -- TODO: Mettre dans Utils
-    for k,v in pairs( GetAllPlayers() ) do
-        if ( GetPlayerName( v ):lower() == ( target_name ):lower() ) then
-            reason = reason or 'no reason'
-            KickPlayer( v, reason )
-        end
+    reason = reason or 'no reason'
+
+    local target = utils.GetPlayerName( target_name )
+
+    if ( not target ) then
+        AddPlayerChat( player, ( '%s not found !' ):format( target_name ) )
+        return
     end
+
+    KickPlayer( target, reason )
 end)
 
 AddRemoteEvent( 'ORF.KickPlayer', function( player, reason, target )
