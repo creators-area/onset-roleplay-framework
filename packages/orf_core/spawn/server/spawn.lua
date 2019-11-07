@@ -34,7 +34,7 @@ local function LoadOrRegisterAccount( player )
 	end)
 end
 
-AddEvent( 'OnPlayerSteamAuth', function( player )
+AddEvent( 'OnPlayerJoin', function( player )
 	local steam_id = tostring( GetPlayerSteamId( player ) )
 
 	database.asyncQuery( database.GET_ACCOUNT_BANS_FOR_STEAMID, { steam_id }, function( results )

@@ -41,6 +41,8 @@ luac.out
 
 HorizonServer
 
+OnsetServer
+
 packages/horizon/*
 
 LICENSE.txt
