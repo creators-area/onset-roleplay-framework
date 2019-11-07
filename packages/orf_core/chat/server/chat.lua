@@ -1,5 +1,5 @@
 AddEvent( 'OnPlayerChat', function( player, message )
-    AddPlayerChatAll( ( '<span color="%s"> %s (%i) : </> %s' ):format(AccountManager:Get( player ):GetColor(), GetPlayerName( player ), player, message ) )
+    AddPlayerChatAll( ( '<span color="%s"> %s (%i) : </> %s' ):format(ORF.AccountManager:Get( player ):GetColor(), GetPlayerName( player ), player, message ) )
 end)
 
 AddEvent( 'OnPlayerChatCommand', function( player, cmd, exists )
