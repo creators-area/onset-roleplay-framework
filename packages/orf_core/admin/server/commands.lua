@@ -1,12 +1,12 @@
 local utils = ImportPackage( 'orf_utils' )
 
 AddCommand( 'admin', function( player )
-    if ( ORF.AccountManager:HavePermissionTo( player, 'open_admin_menu' ) ) then
-        CallRemoteEvent( player, 'ORF.OpenAdminMenu' )
-
-    else
+    if ( not ORF.AccountManager:HavePermissionTo( player, 'open_admin_menu' ) ) then
         AddPlayerChat( player, 'You can not open this menu.' )
+        return
     end
+    
+    CallRemoteEvent( player, 'ORF.OpenAdminMenu', GetAllPlayers() )
 end)
 
 AddCommand( 'kick', function( player, target_name, reason )
