@@ -1,86 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>ORF - Player selection</title>
-	
-	<link rel="stylesheet" href="http://asset/orf_core/vendor/client/semantic.min.css">
-	<style>
-		body {
-			background:none;
-			background-color:rgba( 0, 0, 0, 0.7 );
-		}
-	</style>
-</head>
-<body>
-	<div class="ui grid middle aligned" style="height:100vh;width: 100%;">
 
-		<div class="row">
-			<div class="column">
-				<div class="ui text container">
-					
-					<div class="ui segments stacked">
-						
-						<div class="ui segment red center aligned">
-							<h2 class="ui icon header">
-								<i class="icon users"></i>
-								<div class="content">
-									Character identity
-									<div class="sub header">Choose or create your character</div>
-									<div id="test"></div>
-								</div>
-							</h2>
-						</div>
-						
-						<div class="ui segment padded">
-							<div id="characters" class="ui three cards">
-							</div>
-						</div>
-						
-						<div class="ui clearing secondary segment">
-							<button id="leave-server" class="ui right floated labeled icon button negative">
-								Leaver server
-								<i class="sign-out icon"></i>
-							</button>
-						</div>
-						
-					</div>
-					
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div id="leave-confirmation" class="ui basic modal">
-		<div class="ui icon header">
-			<i class="sign-out icon"></i>
-			Do you really want to leave the server?
-		</div>
-		<div class="actions">
-			<div class="ui red basic cancel inverted button">
-				<i class="remove icon"></i>
-				No
-			</div>
-			<div class="ui green ok inverted button">
-				<i class="checkmark icon"></i>
-				Yes
-			</div>
-		</div>
-	</div>
-	
-	<script src="http://asset/orf_core/vendor/client/jquery-3.4.1.min.js"></script>
-	<script src="http://asset/orf_core/vendor/client/semantic.min.js"></script>
-	<script src="http://asset/orf_core/players/client/selection/ui/selection.js"></script>
-	<script>
-		(function(obj) {
-			ue.game = {};
-			ue.game.callevent = function(name, ...args) {
-				if (typeof(name) !== 'string') return;
-				obj.callevent(name, args.length > 0 ? JSON.stringify(args) : '')
-			};
-		})(ue.game);
-		CallEvent = ue.game.callevent;
-	</script>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Vendor styles -->
+    <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/animate.min.css">
+    <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/select2.min.css">
+    <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/bootstrap-colorpicker.css">
+    <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/jquery.scrollbar.css">
+    <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/app.min.css">
+    <style>
+        body {
+            background:none;
+            background-color:rgba( 0, 0, 0, 0 );
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="main">
+        
+        <section class="content content--full" style="margin: 0;padding: 0;">
+            <div class="content__inner">
+                
+                <div class="card" style="background-color: rgba(0,0,0,0.75);height: 100vh;">
+                    <div class="card-body" style="padding-bottom:0px;flex:0 1 auto;">
+                        <h4 id="test" class="card-title">CHARACTER SELECTION</h4>
+                        <h6 class="card-subtitle">Choose the character you want to play.</h6>
+                        <hr />
+                    </div>
+                    
+                    <div class="listview listview--bordered" style="flex: 1 1 auto;">
+                        <div class="listview__item">
+                            <div class="listview__content">
+                                <div class="listview__heading">Mark Zuckerberg</div>
+                            </div>
+                            <div class="actions listview__actions">
+                                <i class="actions__item zmdi zmdi-delete"></i>
+                                <i class="actions__item zmdi zmdi-play" data-toggle="tooltip" data-placement="left" data-original-title="Play with this character"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-header">
+                        <button class="btn btn-outline-danger" data-toggle="modal" data-target="#leave-server-modal">
+                            <i class="zmdi zmdi-close"></i>
+                        </button>
+                        <button id="create-new-character" class="btn btn-success float-right">
+                            Create a new character
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+
+    <div id="leave-server-modal" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title pull-left">Leave the server ?</h5>
+                </div>
+                <div class="modal-body">
+                    Did you really want to leave the server?
+                </div>
+                <div class="modal-footer">
+                    <button id="leave-server" type="button" class="btn btn-link">Yes</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Vendors -->
+    <script src="http://asset/orf_core/vendor/dist/js/jquery.min.js"></script>
+    <script src="http://asset/orf_core/vendor/dist/js/popper.min.js"></script>
+    <script src="http://asset/orf_core/vendor/dist/js/bootstrap.min.js"></script>
+    <script src="http://asset/orf_core/vendor/dist/js/jquery.scrollbar.min.js"></script>
+    <script src="http://asset/orf_core/vendor/dist/js/jquery-scrollLock.min.js"></script>
+    
+    <script src="http://asset/orf_core/vendor/dist/js/select2.full.min.js"></script>
+    <script src="http://asset/orf_core/vendor/dist/js/bootstrap-colorpicker.min.js"></script>
+    <script>
+        (function(obj) {
+            ue.game = {};
+            ue.game.callevent = function(name, ...args) {
+                if (typeof(name) !== 'string') return;
+                obj.callevent(name, args.length > 0 ? JSON.stringify(args) : '')
+            };
+        })(ue.game);
+        CallEvent = ue.game.callevent;
+        $(window).on("load", function() {
+            $("select.select2").select2({
+                dropdownAutoWidth: !0,
+                width: "100%",
+            });
+            $('[data-toggle="tooltip"]').tooltip();
+            $(".color-picker__value").colorpicker({format:'rgba'});
+            $("body").on("change", ".color-picker__value", function() {
+                $(this).closest(".color-picker").find(".color-picker__preview").css("backgroundColor", $(this).val())
+            });
+        });
+        
+        $(document).on('click', '#leave-server', () => {
+            CallEvent('ORF.PlayerSelection:LeaveServer')
+        });
+
+        $(document).on('click', '#create-new-character', () => {
+            CallEvent('ORF.PlayerSelection:CreateCharacter')
+        });
+    </script>
 </body>
+</html>

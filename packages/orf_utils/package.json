@@ -10,20 +10,27 @@
 		"server/file.lua",
 		"server/table.lua",
 		"server/time.lua",
-
+		
 		"server/print.lua",
 		"server/player.lua",
-
+		
 		"shared/json.lua",
-		"shared/color.lua"
+		"shared/color.lua",
+
+		"server/i18n.lua",
+		"shared/i18n.lua"
 	],
 	"client_scripts": [
 		"vendor/json.lua",
 
 		"client/ui.lua",
+		"client/i18n.lua",
+
 		"shared/json.lua",
-		"shared/color.lua"
+		"shared/color.lua",
+		"shared/i18n.lua"
 	],
 	"files": [
+
 	]
 }

@@ -1,37 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ORF - Character creation</title>
-    
-    <link rel="stylesheet" href="http://asset/orf_core/vendor/client/semantic.min.css">
-    <style>
-        body {
-            background:none;
-            background-color:rgba( 0, 0, 0, 0.2 );
-        }
-    </style>
-</head>
-<body>
-    <div class="ui grid middle aligned centered" style="height:100vh;width: 100%;margin-left:1px;">
-        <div class="ui column stacked segment centered">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        </div>
-    </div>
-    
-    <script src="http://asset/orf_core/vendor/client/jquery-3.4.1.min.js"></script>
-    <script src="http://asset/orf_core/vendor/client/semantic.min.js"></script>
-    <script src="http://asset/orf_core/players/client/creation/ui/creation.js"></script>
-    <script>
-        (function(obj) {
-            ue.game = {};
-            ue.game.callevent = function(name, ...args) {
-                if (typeof(name) !== 'string') return;
-                obj.callevent(name, args.length > 0 ? JSON.stringify(args) : '')
-            };
-        })(ue.game);
-        CallEvent = ue.game.callevent;
-    </script>
-</body>
+        <!-- Vendor styles -->
+        <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/material-design-iconic-font.min.css">
+        <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/animate.min.css">
+        <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/select2.min.css">
+        <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/bootstrap-colorpicker.css">
+        <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/jquery.scrollbar.css">
+        <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/app.min.css">
+        <style>
+            body {
+                background:none;
+                background-color:rgba( 0, 0, 0, 0 );
+                overflow: hidden;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="main">
+
+            <section class="content content--full" style="margin: 0;padding: 0;">
+                <div class="content__inner">
+
+                    <div class="card" style="background-color: rgba(0,0,0,0.75);">
+                        <div class="card-body">
+                            <h4 id="test" class="card-title">CHARACTER CREATOR</h4>
+                            <h6 class="card-subtitle">Make your own character.</h6>
+
+                            <hr />
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h3 class="card-body__title">First name</h3>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control is-valid" placeholder="First name ...">
+                                        <i class="form-group__bar"></i>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h3 class="card-body__title">Last name</h3>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control is-invalid" placeholder="Last name ...">
+                                        <i class="form-group__bar"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h3 class="card-body__title">Face</h3>
+                                    <div class="form-group">
+                                        <select id="face" class="select2" data-minimum-results-for-search="Infinity">
+                                            <option value="HZN_CH3D_Normal01_LPR">HZN_CH3D_Normal01_LPR</option>
+                                            <option value="HZN_CH3D_Normal02_LPR">HZN_CH3D_Normal02_LPR</option>
+                                            <option value="HZN_CH3D_Normal03_LPR">HZN_CH3D_Normal03_LPR</option>
+                                            <option value="HZN_CH3D_Normal04_LPR">HZN_CH3D_Normal04_LPR</option>
+                                            <option value="HZN_CH3D_Business_LPR">HZN_CH3D_Business_LPR</option>
+                                            <option value="HZN_CH3D_SpecialAgent_LPR">HZN_CH3D_SpecialAgent_LPR</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h3 class="card-body__title">Hair style</h3>
+                                    <div class="form-group">
+                                        <select id="hair" class="select2" data-minimum-results-for-search="Infinity">
+                                            <option>HZN_CH3D_Hair_Business_LP</option>
+                                            <option>HZN_CH3D_Hair_Scientist_LP</option>
+                                            <option>HZN_CH3D_Normal_Hair_01_LPR</option>
+                                            <option>HZN_CH3D_Police_Hair_LPR</option>
+                                            <option>HZN_CH3D_Normal_Hair_03_LPR</option>
+                                            <option>HZN_CH3D_Normal_Hair_02_LPR</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h3 class="card-body__title">Color</h3>
+                                    <div class="form-group color-picker">
+                                        <input id="hair_color" type="text" class="form-control color-picker__value" value="#23120B">
+                                        <i class="color-picker__preview" style="background-color: #23120B"></i>
+                                        <i class="form-group__bar"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h3 class="card-body__title">Top style</h3>
+                                    <div class="form-group">
+                                        <select id="top" class="select2" data-minimum-results-for-search="Infinity">
+                                            <option>HZN_Outfit_Set_SpecialAgent_LPR</option>
+                                            <option>HZN_CH3D_Prisoner_LPR</option>
+                                            <option>HZN_Outfit_Knitted_Shirt_LPR</option>
+                                            <option>HZN_Outfit_Piece_FormalShirt_LPR</option>
+                                            <option>HZN_Outfit_Piece_FormalShirt2_LPR</option>
+                                            <option>HZN_Outfit_Piece_Labcoat_LPR</option>
+                                            <option>HZN_Outfit_Piece_Shirt_LPR</option>
+                                            <option>HZN_Outfit_Piece_TShirt_Knitted2_LPR</option>
+                                            <option>HZN_Outfit_Piece_TShirt_Knitted_LPR</option>
+                                            <option>HZN_Outfit_Piece_TShirt_LPR</option>
+                                            <option>HZN_Outfit_Police_Shirt-Long_LPR</option>
+                                            <option>HZN_Outfit_Police_Shirt-Short_LPR</option>
+                                            <option>HZN_Outfit_Set_Pimp_LPR</option>
+                                            <option>HZN_Outfit_Set_Pimp_Open_LPR</option>
+                                            <option>HZN_Outfit_Set_Police_LPR</option>
+                                            <option>HZN_Outfit_Set_Scientist_LPR</option>
+                                            <option>SK_Mafia</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h3 class="card-body__title">Color</h3>
+                                    <div class="form-group color-picker">
+                                        <input id="top_color" type="text" class="form-control color-picker__value" value="#03A9F4">
+                                        <i class="color-picker__preview" style="background-color: #03A9F4"></i>
+                                        <i class="form-group__bar"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h3 class="card-body__title">Jacket style</h3>
+                                    <div class="form-group">
+                                        <select id="jacket" class="select2" data-minimum-results-for-search="Infinity">
+                                            <option>NONE</option>
+                                            <option>HZN_Outfit_Piece_FormalJacket_LPR</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h3 class="card-body__title">Color</h3>
+                                    <div class="form-group color-picker">
+                                        <input type="text" class="form-control color-picker__value" value="#03A9F4">
+                                        <i class="color-picker__preview" style="background-color: #03A9F4"></i>
+                                        <i class="form-group__bar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h3 class="card-body__title">Pants style</h3>
+                                    <div class="form-group">
+                                        <select id="pants" class="select2" data-minimum-results-for-search="Infinity">
+                                            <option>HZN_Outfit_Piece_CargoPants_LPR</option>
+                                            <option>HZN_Outfit_Piece_DenimPants_LPR</option>
+                                            <option>HZN_Outfit_Piece_FormalPants_LPR</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h3 class="card-body__title">Color</h3>
+                                    <div class="form-group color-picker">
+                                        <input type="text" class="form-control color-picker__value" value="#01060C">
+                                        <i class="color-picker__preview" style="background-color: #01060C"></i>
+                                        <i class="form-group__bar"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h3 class="card-body__title">Shoes</h3>
+                                    <div class="form-group">
+                                        <select id="shoes" class="select2" data-minimum-results-for-search="Infinity">
+                                            <option>HZN_Outfit_Piece_BusinessShoes_LPR</option>
+                                            <option>HZN_Outfit_Piece_NormalShoes_LPR</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h3 class="card-body__title">Color</h3>
+                                    <div class="form-group color-picker">
+                                        <input type="text" class="form-control color-picker__value" value="#B20000">
+                                        <i class="color-picker__preview" style="background-color: #B20000"></i>
+                                        <i class="form-group__bar"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button id="back-to-selection" class="btn btn-outline-danger">
+                                        <i class="zmdi zmdi-arrow-back"></i>
+                                        Back to character selection
+                                    </button>
+                                    <button class="btn btn-success btn--icon-text float-right">
+                                        <i class="zmdi zmdi-check"></i>
+                                        Create this character
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+
+        <!-- Vendors -->
+        <script src="http://asset/orf_core/vendor/dist/js/jquery.min.js"></script>
+        <script src="http://asset/orf_core/vendor/dist/js/popper.min.js"></script>
+        <script src="http://asset/orf_core/vendor/dist/js/bootstrap.min.js"></script>
+        <script src="http://asset/orf_core/vendor/dist/js/jquery.scrollbar.min.js"></script>
+        <script src="http://asset/orf_core/vendor/dist/js/jquery-scrollLock.min.js"></script>
+
+        <script src="http://asset/orf_core/vendor/dist/js/select2.full.min.js"></script>
+        <script src="http://asset/orf_core/vendor/dist/js/bootstrap-colorpicker.min.js"></script>
+        <script>
+            (function(obj) {
+                ue.game = {};
+                ue.game.callevent = function(name, ...args) {
+                    if (typeof(name) !== 'string') return;
+                    obj.callevent(name, args.length > 0 ? JSON.stringify(args) : '')
+                };
+            })(ue.game);
+            CallEvent = ue.game.callevent;
+            $(window).on("load", function() {
+
+                function formatRGBA( rgba ) {
+                    return rgba.substr(5).replace(')', '').split(',');
+                }
+
+                function changeClothes() {
+                    const face = $('#face').val();
+                    const hair = $('#hair').val();
+                    const hair_color = JSON.stringify(formatRGBA($('#hair_color').data('color')));
+                    const top = $('#top').val();
+                    const top_color = JSON.stringify(formatRGBA($('#top_color').data('color')));
+                    const pants = $('#pants').val();
+                    const shoes = $('#shoes').val();
+                    const jacket = $('#jacket').val();
+                    CallEvent( 'ORF.Test', face, hair, hair_color, top, top_color, jacket, pants, shoes )
+                }
+
+                $("select.select2").select2({
+                    dropdownAutoWidth: !0,
+                    width: "100%",
+                });
+                $(".color-picker__value").colorpicker({format:'rgba'});
+                $("body").on("change", ".color-picker__value", function() {
+                    $(this).closest(".color-picker").find(".color-picker__preview").css("backgroundColor", $(this).val())
+                    changeClothes()
+                });
+
+                $('.select2').on('select2:select', (e) => {
+                    changeClothes()
+                });
+            });
+
+            $(document).on('click', '#back-to-selection', () => {
+                CallEvent( 'ORF.BackToCharacterSelectionMenu' )
+            });
+
+        </script>
+    </body>
+</html>

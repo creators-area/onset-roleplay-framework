@@ -2,9 +2,10 @@ local utils = ImportPackage( 'orf_utils' )
 local selection_ui = nil
 
 local function create_web_ui()
-	selection_ui = CreateWebUI( 0, 0, 0, 0, 32, 16 )
+	local w, h = GetScreenSize()
+	selection_ui = CreateWebUI( w * 0.10, h * 0.10, w * 0.20, h * 1, 10, 66 )
 	SetWebAlignment( selection_ui, 0, 0 )
-	SetWebAnchors( selection_ui, 0, 0, 1, 1 )
+	SetWebAnchors( selection_ui, 0, 0, 0, 0 )
 	LoadWebFile( selection_ui, ( 'http://asset/%s/players/client/selection/ui/selection.html' ):format( GetPackageName() ) )
 	SetWebVisibility( selection_ui, WEB_HIDDEN )
 end
@@ -22,9 +23,9 @@ AddEvent( 'OnKeyPress', OnKeyPress )
 local function toggle_ui_visiblity( characters )
 	if ( not selection_ui ) then create_web_ui() end
 	
-	SetCameraViewDistance( 1 )
-	SetCameraRotation( 0, 180, 0 )
-	SetCameraLocation( 129879.734375, 78550, 1656.2053222656 )
+	local x, y, z = GetPlayerLocation(GetPlayerId())
+	SetCameraRotation( -18, 90, 0 )
+	SetCameraLocation( x, y - 200, z + 60 )
 
 	local is_visible = GetWebVisibility( selection_ui ) == 1
 	ShowMouseCursor( not is_visible )
@@ -36,6 +37,7 @@ local function toggle_ui_visiblity( characters )
 	end
 end
 AddRemoteEvent( 'ORF.PlayerSelectionToggleVisiblity', toggle_ui_visiblity )
+AddEvent( 'ORF.PlayerSelectionToggleVisiblity', toggle_ui_visiblity )
 
 -- Html call/send events
 

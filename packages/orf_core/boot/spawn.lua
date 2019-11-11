@@ -50,17 +50,16 @@ AddEvent( 'OnPlayerJoin', function( player )
 end)
 
 AddEvent( 'OnPlayerJoin', function( player )
-	SetPlayerSpawnLocation( player, 129532.515625, 78592.75, 1566.9007568359, 0 )
+	SetPlayerSpawnLocation( player, -167643.890625, -39296.625, 1146.1501464844, -90 )
 end)
 
 AddEvent( 'ORF.OnAccountLoad', function( player )
 	local account = ORF.AccountManager:Get( player )
-	SetPlayerLocation( player, 129532.515625, 78592.75, 1566.9007568359 )
-	SetPlayerModel( player, 5 )
+	SetPlayerLocation( player, -167643.890625, -39296.625, 1146.1501464844 )
 	SetPlayerName( player, account:GetSteamName() )
 
 	-- Toggle player selection UI
-	--CallRemoteEvent( player, 'ORF.PlayerSelectionToggleVisiblity', account.Characters )
+	-- CallRemoteEvent( player, 'ORF.PlayerSelectionToggleVisiblity', account.Characters )
 end)
 
 AddEvent( 'OnPlayerQuit', function( player )
@@ -69,3 +68,42 @@ AddEvent( 'OnPlayerQuit', function( player )
 		ORF.AccountManager:Remove( player )
 	end)
 end)
+
+function TeleportTo(player, x, y, z, h)
+	h = h or -1.0
+
+	if (GetPlayerVehicleSeat(player) == 1) then
+		local vehicle = GetPlayerVehicle(player)
+		SetVehicleLocation(vehicle, x, y, z)
+		if (h ~= -1.0) then
+			SetVehicleHeading(vehicle, h)
+		end
+
+		-- Reset velocity
+		SetVehicleLinearVelocity(vehicle, 0.0, 0.0, 0.0, true)
+		SetVehicleAngularVelocity(vehicle, 0.0, 0.0, 0.0, true)
+		local rx, ry, rz = GetVehicleRotation(vehicle)
+		-- Reset pitch and roll, leave yaw alone
+		SetVehicleRotation(vehicle, 0.0, ry, 0.0)
+	else
+		SetPlayerLocation(player, x, y, z)
+		if (h ~= -1.0) then
+			SetPlayerHeading(player, h)
+		end
+	end
+
+	ResetPlayerCamera(player)
+end
+
+function cmd_getloc(player)
+	local x, y, z = GetPlayerLocation(player)
+	local h = GetPlayerHeading(player)
+
+	print(x, y, z, h)
+end
+AddCommand("getloc", cmd_getloc)
+
+function cmd_town(player)
+	TeleportTo(player, -182821.000000, -41675.000000, 1160.000000, -90.0)
+end
+AddCommand("town", cmd_town)

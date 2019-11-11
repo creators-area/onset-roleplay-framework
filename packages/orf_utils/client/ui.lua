@@ -28,18 +28,3 @@ function SendPayloadToWebJS( web_ui, method, ... )
 	ExecuteWebJS( web_ui, ( '%s( %s )' ):format( method, table.concat( args, ', ' ) ) )
 end
 AddFunctionExport( 'SendPayloadToWebJS', SendPayloadToWebJS )
-
-
-AddRemoteEvent( 'DEV.GetInfo', function()
-	print( 'GetCameraRotation()' )
-	local x, y, z = GetCameraRotation()
-	print( x, y, z )
-
-	print( 'GetPlayerRotationRate()' )
-	x, y, z = GetPlayerRotationRate()
-	print( x, y, z )
-
-	print( 'GetCameraLocation()' )
-	x, y, z = GetCameraLocation()
-	print( x, y, z )
-end)
