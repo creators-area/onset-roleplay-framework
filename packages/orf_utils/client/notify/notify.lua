@@ -12,9 +12,10 @@ AddEvent( 'OnPackageStop', function()
 	if ( notify_ui ~= nil ) then DestroyWebUI( notify_ui ) end
 end)
 
-function Notify( title, content, extras )
-	SendPayloadToWebJS( notify_ui, 'onReceiveNotifyOrder', title, content, extras )
+function ORF_Notify( title, content, extras )
+	print( title, content, extras )
+	SendPayloadToWebJS( notify_ui, 'onReceiveNotifyOrder', title, content, extras or {} )
 end
-AddEvent( 'ORF.Notify', Notify )
-AddRemoveEvent( 'ORF.Notify', Notify )
-AddFunctionExport( 'ORF_Notify', Notify )
+AddEvent( 'ORF.Notify', ORF_Notify )
+AddRemoteEvent( 'ORF.Notify', ORF_Notify )
+AddFunctionExport( 'ORF_Notify', ORF_Notify )

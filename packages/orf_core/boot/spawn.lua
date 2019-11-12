@@ -57,7 +57,11 @@ AddEvent( 'ORF.OnAccountLoad', function( player )
 	local account = ORF.AccountManager:Get( player )
 	SetPlayerLocation( player, -167643.890625, -39296.625, 1146.1501464844 )
 	SetPlayerName( player, account:GetSteamName() )
-
+	Delay(1000, function()
+		utils.ORF_Notify( player, 'Bienvenue parmis nous', {
+			icon = 'zmdi zmdi-globe-alt zmdi-hc-md'
+		})
+	end)
 	-- Toggle player selection UI
 	-- CallRemoteEvent( player, 'ORF.PlayerSelectionToggleVisiblity', account.Characters )
 end)

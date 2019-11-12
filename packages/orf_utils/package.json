@@ -13,6 +13,7 @@
 
 		"server/print.lua",
 		"server/player.lua",
+		"server/notify.lua",
 
 		"shared/json.lua",
 		"shared/color.lua",
@@ -32,6 +33,14 @@
 		"shared/i18n.lua"
 	],
 	"files": [
-		"client/notify/notify.html",
+		"vendor/dist/fonts/Material-Design-Iconic-Fontd1f1.ttf",
+		"vendor/dist/css/material-design-iconic-font.min.css",
+		"vendor/dist/css/animate.min.css",
+		"vendor/dist/css/app.min.css",
+
+		"vendor/dist/js/jquery.min.js",
+		"vendor/dist/js/bootstrap-notify.min.js",
+		
+		"client/notify/notify.html"
 	]
 }
