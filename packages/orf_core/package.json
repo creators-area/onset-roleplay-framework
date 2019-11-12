@@ -45,6 +45,7 @@
 		"vendor/dist/js/jquery.scrollbar.min.js",
 		"vendor/dist/js/popper.min.js",
 		"vendor/dist/js/select2.full.min.js",
+		"vendor/dist/js/bootstrap-notify.min.js",
 
 		"players/client/selection/ui/selection.html",
 

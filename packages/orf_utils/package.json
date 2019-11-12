@@ -10,10 +10,10 @@
 		"server/file.lua",
 		"server/table.lua",
 		"server/time.lua",
-		
+
 		"server/print.lua",
 		"server/player.lua",
-		
+
 		"shared/json.lua",
 		"shared/color.lua",
 
@@ -25,12 +25,13 @@
 
 		"client/ui.lua",
 		"client/i18n.lua",
+		"client/notify/notify.lua",
 
 		"shared/json.lua",
 		"shared/color.lua",
 		"shared/i18n.lua"
 	],
 	"files": [
-
+		"client/notify/notify.html",
 	]
 }
