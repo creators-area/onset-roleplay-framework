@@ -1,5 +1,6 @@
 local utils = ImportPackage( 'orf_utils' )
 __ = function( k, ... ) return utils.translate( GetPackageName(), k, ... ) end
+MakeUI = function( web_file, size, extras ) return utils.makeNewInterface( GetPackageName(), web_file, size, extras ) end
 
 local shirts = {
     '/Game/CharacterModels/SkeletalMesh/Outfits/HZN_Outfit_Set_SpecialAgent_LPR',
