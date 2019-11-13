@@ -1,3 +1,4 @@
+ORF = ORF or {}
 ORF.Translations = {}
 local file_transfers = {}
 ORF.Lang = 'en'

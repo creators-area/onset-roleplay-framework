@@ -1,7 +1,7 @@
 local notify_ui = nil
 
 AddEvent( 'OnPackageStart', function()
-	notify_ui = CreateWebUI( 0, 0, 0, 0, 99, 66 )
+	notify_ui = CreateWebUI( 0, 0, 0, 0, 1, 66 )
 	SetWebAlignment( notify_ui, 0, 0 )
 	SetWebAnchors( notify_ui, 0, 0, 1, 1 )
 	LoadWebFile( notify_ui, ( 'http://asset/%s/client/notify/notify.html' ):format( GetPackageName() ) )

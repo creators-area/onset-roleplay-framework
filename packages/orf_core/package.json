@@ -20,6 +20,7 @@
 	],
 	"client_scripts": [
 		"core/shared/enums.lua",
+		"core/client/load.lua",
 
 		"players/client/selection/selection.lua",
 		"players/client/creation/creation.lua",

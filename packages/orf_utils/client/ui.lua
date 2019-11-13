@@ -16,7 +16,7 @@ function makeNewInterface( package_name, web_file, size, extras )
 		SetWebAnchors( interface_id, 0, 0, 0, 0 )
 	end
 
-	LoadWebFile( interface_id, ( 'http://asset/%s/%s' ):format( package_name, web_file ) )
+	local t = LoadWebFile( interface_id, ( 'http://asset/%s/%s' ):format( package_name, web_file ) )
 
 	extras.default_visibility = extras.default_visibility or WEB_HIDDEN
 	SetWebVisibility( interface_id, extras.default_visibility )
@@ -27,6 +27,7 @@ function makeNewInterface( package_name, web_file, size, extras )
 
 	interfaces[ interface_id ] = {
 		id = interface_id,
+		package_name = package_name,
 		web_file = web_file,
 		size = size,
 		extras = extras,
@@ -40,8 +41,8 @@ function toggleVisiblity( interface_id )
 	if ( interface == nil ) then return end
 
 	if ( interface.extras.translation_prefix ~= nil and interface.extras.translation_prefix ~= '' and not interface.translation_sent ) then
-		local translations = utils.get_translations_start_with( package_name, 'selection_' )
-		utils.SendPayloadToWebJS( interface_id, 'onReceiveTranslations', translations )
+		local translations = get_translations_start_with( package_name, 'selection_' )
+		SendPayloadToWebJS( interface_id, 'onReceiveTranslations', translations )
 		interfaces[ interface_id ].translation_sent = true
 	end
 
