@@ -1,3 +1,64 @@
+local interfaces = {}
+
+function makeNewInterface( package_name, web_file, size, extras )
+	extras = extras or {}
+	extras.order = extras.order or 10
+	extras.frame_rate = extras.frame_rate or 60
+
+	local interface_id
+	if ( size == 'fullscreen' ) then
+		interface_id = CreateWebUI( 0, 0, 0, 0, extras.order, extras.frame_rate )
+		SetWebAlignment( interface_id, 0, 0 )
+		SetWebAnchors( interface_id, 0, 0, 1, 1 )
+	elseif ( type( size ) == 'table' ) then
+		interface_id = CreateWebUI( size.x or 0, size.y or 0, size.w or 0, size.h or 0, extras.order, extras.frame_rate )
+		SetWebAlignment( interface_id, 0, 0 )
+		SetWebAnchors( interface_id, 0, 0, 0, 0 )
+	end
+
+	LoadWebFile( interface_id, ( 'http://asset/%s/%s' ):format( package_name, web_file ) )
+
+	extras.default_visibility = extras.default_visibility or WEB_HIDDEN
+	SetWebVisibility( interface_id, extras.default_visibility )
+
+	extras.show_mouse_on_show = extras.show_mouse_on_show or true
+	extras.input_mode_on_show = extras.input_mode_on_show or INPUT_UI
+	extras.input_mode_on_hide = extras.input_mode_on_hide or INPUT_GAME
+
+	interfaces[ interface_id ] = {
+		id = interface_id,
+		web_file = web_file,
+		size = size,
+		extras = extras,
+	}
+	return interface_id
+end
+AddFunctionExport( 'makeNewInterface', makeNewInterface )
+
+function toggleVisiblity( interface_id )
+	local interface = interfaces[ interface_id ]
+	if ( interface == nil ) then return end
+
+	if ( interface.extras.translation_prefix ~= nil and interface.extras.translation_prefix ~= '' and not interface.translation_sent ) then
+		local translations = utils.get_translations_start_with( package_name, 'selection_' )
+		utils.SendPayloadToWebJS( interface_id, 'onReceiveTranslations', translations )
+		interfaces[ interface_id ].translation_sent = true
+	end
+
+	local is_visible = GetWebVisibility( interface_id ) == 1
+
+	if ( interface.extras.show_mouse_on_show ) then
+		ShowMouseCursor( not is_visible )
+	end
+
+	SetInputMode( not is_visible and interface.extras.input_mode_on_show or interface.extras.input_mode_on_hide )
+	SetWebVisibility( interface_id, not is_visible and WEB_VISIBLE or WEB_HIDDEN )
+end
+AddFunctionExport( 'toggleVisiblity', toggleVisiblity )
+
+-- Destroy all interfaces
+AddEvent( 'OnPackageStop', function() for i = 1, #interfaces do DestroyWebUI( interfaces[ i ] ) end end )
+
 function encode_payload( mixed )
 	local payload = mixed
 	if ( type( mixed ) == 'string' ) then

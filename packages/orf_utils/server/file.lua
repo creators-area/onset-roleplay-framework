@@ -32,7 +32,7 @@ AddFunctionExport( 'get_file_content', get_file_content )
 function get_files_in_folder( directory )
 	if ( not folder_exist( directory ) ) then return {} end
 	local i, t, popen = 0, {}, io.popen
-	for filename in io.popen('dir "'..directory..'" /b'):lines() do
+	for filename in popen( 'dir "' .. directory .. '" /b' ):lines() do
 		i = i + 1
 		t[i] = filename
 	end
@@ -46,15 +46,15 @@ function get_config( package_name, category )
 		ServerExit()
 		error( ( 'Cannot find the following config file: {%s}' ):format( full_file_path ) )
 	end
-	
+
 	local stream = io.open( full_file_path )
 	local content = json_decode( stream:read( '*a' ) )
 	stream:close()
-	
+
 	if ( category ~= nil and content[ category ] ~= nil ) then
 		content = content[ category ]
 	end
-	
+
 	return content or {}
 end
 AddFunctionExport( 'get_config', get_config )

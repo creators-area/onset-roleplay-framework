@@ -44,3 +44,16 @@ function info(player)
 	CallRemoteEvent( player, 'DEV.GetInfo' )
 end
 AddCommand('info', info)
+
+function cmd_getloc(player)
+	local x, y, z = GetPlayerLocation(player)
+	local h = GetPlayerHeading(player)
+
+	print(x, y, z, h)
+end
+AddCommand("getloc", cmd_getloc)
+
+function cmd_town(player)
+	TeleportTo(player, -182821.000000, -41675.000000, 1160.000000, -90.0)
+end
+AddCommand("town", cmd_town)

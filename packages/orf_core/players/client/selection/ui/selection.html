@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+
     <!-- Vendor styles -->
     <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" href="http://asset/orf_core/vendor/dist/css/animate.min.css">
@@ -23,17 +23,17 @@
 
 <body>
     <main class="main">
-        
+
         <section class="content content--full" style="margin: 0;padding: 0;">
             <div class="content__inner">
-                
+
                 <div class="card" style="background-color: rgba(0,0,0,0.75);height: 100vh;">
                     <div class="card-body" style="padding-bottom:0px;flex:0 1 auto;">
-                        <h4 id="test" class="card-title">CHARACTER SELECTION</h4>
-                        <h6 class="card-subtitle">Choose the character you want to play.</h6>
+                        <h4 id="test" class="card-title" data-trans="selection_title">CHARACTER SELECTION</h4>
+                        <h6 class="card-subtitle" data-trans="selection_subtitle">Choose the character you want to play.</h6>
                         <hr />
                     </div>
-                    
+
                     <div class="listview listview--bordered" style="flex: 1 1 auto;">
                         <div class="listview__item">
                             <div class="listview__content">
@@ -45,17 +45,17 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="card-header">
                         <button class="btn btn-outline-danger" data-toggle="modal" data-target="#leave-server-modal">
                             <i class="zmdi zmdi-close"></i>
                         </button>
-                        <button id="create-new-character" class="btn btn-success float-right">
+                        <button id="create-new-character" class="btn btn-success float-right" data-trans="selection_create_new_character">
                             Create a new character
                         </button>
                     </div>
                 </div>
-                
+
             </div>
         </section>
     </main>
@@ -64,26 +64,26 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title pull-left">Leave the server ?</h5>
+                    <h5 class="modal-title pull-left" data-trans="selection_leave_server_title">Leave the server ?</h5>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" data-trans="selection_leave_server_body">
                     Did you really want to leave the server?
                 </div>
                 <div class="modal-footer">
-                    <button id="leave-server" type="button" class="btn btn-link">Yes</button>
-                    <button type="button" class="btn btn-link" data-dismiss="modal">No</button>
+                    <button id="leave-server" type="button" class="btn btn-link" data-trans="selection_yes">Yes</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal" data-trans="selection_no">No</button>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- Vendors -->
     <script src="http://asset/orf_core/vendor/dist/js/jquery.min.js"></script>
     <script src="http://asset/orf_core/vendor/dist/js/popper.min.js"></script>
     <script src="http://asset/orf_core/vendor/dist/js/bootstrap.min.js"></script>
     <script src="http://asset/orf_core/vendor/dist/js/jquery.scrollbar.min.js"></script>
     <script src="http://asset/orf_core/vendor/dist/js/jquery-scrollLock.min.js"></script>
-    
+
     <script src="http://asset/orf_core/vendor/dist/js/select2.full.min.js"></script>
     <script src="http://asset/orf_core/vendor/dist/js/bootstrap-colorpicker.min.js"></script>
     <script>
@@ -106,7 +106,7 @@
                 $(this).closest(".color-picker").find(".color-picker__preview").css("backgroundColor", $(this).val())
             });
         });
-        
+
         $(document).on('click', '#leave-server', () => {
             CallEvent('ORF.PlayerSelection:LeaveServer')
         });
@@ -114,6 +114,16 @@
         $(document).on('click', '#create-new-character', () => {
             CallEvent('ORF.PlayerSelection:CreateCharacter')
         });
+
+        function onReceiveTranslations( translations ) {
+            translations = JSON.parse(atob(translations));
+            $('[data-trans]').each( (i) =>{
+                const trans =  $(this).data('trans');
+                if (translations[ trans ] !== undefined) {
+                    $(this).html(translations[ trans ]);
+                }
+            });
+        }
     </script>
 </body>
 </html>

@@ -21,7 +21,7 @@ end
 AddEvent( 'OnKeyPress', OnKeyPress )
 
 local function toggle_ui_visiblity( characters )
-    if ( not creation_ui ) then create_web_ui() end
+	if ( not creation_ui ) then create_web_ui() end
 
 	local x, y, z = GetPlayerLocation(GetPlayerId())
 	SetCameraRotation( -18, 90, 0 )
@@ -44,7 +44,7 @@ end)
 AddEvent( 'ORF.Test', function( face, hair, hair_color, top, top_color, jacket, pants, shoes )
 	local SkeletalMeshComponent = GetPlayerSkeletalMeshComponent(GetPlayerId(), "Body")
 	SkeletalMeshComponent:SetSkeletalMesh(USkeletalMesh.LoadFromAsset("/Game/CharacterModels/SkeletalMesh/BodyMerged/" .. face))
-	if( face == 'HZN_CH3D_SpecialAgent_LPR' ) then
+	if ( face == 'HZN_CH3D_SpecialAgent_LPR' ) then
 		SkeletalMeshComponent:SetMaterial(0, UMaterialInterface.LoadFromAsset("/Game/CharacterModels/Materials/HZN_Materials/M_HZN_Body_NoShoesLegsTorso"))
 	else
 		SkeletalMeshComponent:SetMaterial(3, UMaterialInterface.LoadFromAsset("/Game/CharacterModels/Materials/HZN_Materials/M_HZN_Body_NoShoesLegsTorso"))

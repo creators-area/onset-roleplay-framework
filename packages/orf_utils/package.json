@@ -15,6 +15,7 @@
 		"server/player.lua",
 		"server/notify.lua",
 
+		"shared/string.lua",
 		"shared/json.lua",
 		"shared/color.lua",
 
@@ -28,6 +29,7 @@
 		"client/i18n.lua",
 		"client/notify/notify.lua",
 
+		"shared/string.lua",
 		"shared/json.lua",
 		"shared/color.lua",
 		"shared/i18n.lua"
@@ -40,7 +42,7 @@
 
 		"vendor/dist/js/jquery.min.js",
 		"vendor/dist/js/bootstrap-notify.min.js",
-		
+
 		"client/notify/notify.html"
 	]
 }

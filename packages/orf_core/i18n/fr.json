@@ -1,4 +1,9 @@
 {
-    "player_join": "{1} à rejoins le serveur",
-    "player_quit": "{1} left the server!"
+    "selection_title": "SELECTION D'UN PERSONNAGE",
+    "selection_subtitle": "Choisissez le personnage avec lequel vous souhaitez jouer.",
+    "selection_create_new_character": "Créer un personnage",
+    "selection_leave_server_title": "Quitter le serveur ?",
+    "selection_leave_server_body": "Voulez-vous vraiment quitter le serveur ?",
+    "selection_yes": "Oui",
+    "selection_no": "Non"
 }
