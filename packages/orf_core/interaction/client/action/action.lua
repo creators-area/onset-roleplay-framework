@@ -25,6 +25,7 @@ local function toggleAnimationMenu()
 end
 
 AddEvent( 'OnPackageStop', function()
+	if ( not animation_ui ) then return end 
 	DestroyWebUI( animation_ui )
 end)
 

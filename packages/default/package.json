@@ -1,10 +1,11 @@
 {
-	"author": "Game Creators Area",
-	"version": "0.1",
+	"author": "Blue Mountains",
+	"version": "1.0",
 	"server_scripts": [
 		"WorldDoors.lua"
 	],
 	"client_scripts": [
+		"Weapons.lua"
 	],
 	"files": [
 	]

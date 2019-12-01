@@ -34,14 +34,14 @@ local function LoadOrRegisterAccount( player )
 	end)
 end
 
-AddEvent( 'OnPlayerJoin', function( player )
+AddEvent( 'OnTranslationReady', function( player )
 	local steam_id = tostring( GetPlayerSteamId( player ) )
 
 	database.asyncQuery( database.GET_ACCOUNT_BANS_FOR_STEAMID, { steam_id }, function( results )
 		if ( type( results ) == 'table' and #results >= 1 ) then
-			local reason = ( 'You\'re permanently banned for the following reason: %s' ):format( results[ 1 ].reason )
+			local reason = __( 'permanently_banned', results[ 1 ].reason )
 			if ( results[ 1 ].expire_ban ) then
-				reason = ( 'You\'re banned until the %s for the following reason: %s' ):format( utils.format_unix_time( results[ 1 ].expire_ban ), results[ 1 ].reason )
+				reason = __( 'banned_until', utils.format_unix_time( results[ 1 ].expire_ban ), results[ 1 ].reason )
 			end
 			KickPlayer( player, reason )
 		end
@@ -49,7 +49,7 @@ AddEvent( 'OnPlayerJoin', function( player )
 	end)
 end)
 
-AddEvent( 'OnPlayerJoin', function( player )
+AddEvent( 'OnTranslationReady', function( player )
 	SetPlayerSpawnLocation( player, -167643.890625, -39296.625, 1146.1501464844, -90 )
 end)
 
@@ -57,11 +57,6 @@ AddEvent( 'ORF.OnAccountLoad', function( player )
 	local account = ORF.AccountManager:Get( player )
 	SetPlayerLocation( player, -167643.890625, -39296.625, 1146.1501464844 )
 	SetPlayerName( player, account:GetSteamName() )
-	Delay(2000, function()
-		utils.ORF_Notify( player, 'Bienvenue parmis nous', {
-			icon = 'zmdi zmdi-globe-alt zmdi-hc-md'
-		})
-	end)
 	-- Toggle player selection UI
 	CallRemoteEvent( player, 'ORF.PlayerSelectionToggleVisiblity', account.Characters )
 end)

@@ -29,7 +29,7 @@
 
                 <div class="card" style="background-color: rgba(0,0,0,0.75);height: 100vh;">
                     <div class="card-body" style="padding-bottom:0px;flex:0 1 auto;">
-                        <h4 id="test" class="card-title" data-trans="selection_title">CHARACTER SELECTION</h4>
+                        <h4 class="card-title" data-trans="selection_title">CHARACTER SELECTION</h4>
                         <h6 class="card-subtitle" data-trans="selection_subtitle">Choose the character you want to play.</h6>
                         <hr />
                     </div>
@@ -41,7 +41,7 @@
                             </div>
                             <div class="actions listview__actions">
                                 <i class="actions__item zmdi zmdi-delete"></i>
-                                <i class="actions__item zmdi zmdi-play" data-toggle="tooltip" data-placement="left" data-original-title="Play with this character"></i>
+                                <i class="actions__item zmdi zmdi-play"></i>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="modal-footer">
                     <button id="leave-server" type="button" class="btn btn-link" data-trans="selection_yes">Yes</button>
-                    <button type="button" class="btn btn-link" data-dismiss="modal" data-trans="selection_no">No</button>
+                    <button type="button" class="btn btn-link trans" data-dismiss="modal" data-trans="selection_no">No</button>
                 </div>
             </div>
         </div>
@@ -95,13 +95,29 @@
             };
         })(ue.game);
         CallEvent = ue.game.callevent;
+
+        let ui_identifier = ''
+        function SaveUIIdentifier( identifier ) {
+            ui_identifier = identifier
+            $('[data-trans]').each(function(){
+                const trans =  $(this).attr('data-trans')
+                CallEvent('ORF.GetUITranslation', ui_identifier, trans)
+            });
+        }
+
+        function OnReceiveTranslations( key, translation ) {
+            for (const element of document.querySelectorAll(`[data-trans='${atob(key)}']`)) {
+                element.innerHTML = atob(translation)
+            }
+        }
+
         $(window).on("load", function() {
             $("select.select2").select2({
                 dropdownAutoWidth: !0,
                 width: "100%",
             });
             $('[data-toggle="tooltip"]').tooltip();
-            $(".color-picker__value").colorpicker({format:'rgba'});
+            $(".color-picker__value").colorpicker({format:'rgba'})
             $("body").on("change", ".color-picker__value", function() {
                 $(this).closest(".color-picker").find(".color-picker__preview").css("backgroundColor", $(this).val())
             });
@@ -114,16 +130,6 @@
         $(document).on('click', '#create-new-character', () => {
             CallEvent('ORF.PlayerSelection:CreateCharacter')
         });
-
-        function onReceiveTranslations( translations ) {
-            translations = JSON.parse(atob(translations));
-            $('[data-trans]').each( (i) =>{
-                const trans =  $(this).data('trans');
-                if (translations[ trans ] !== undefined) {
-                    $(this).html(translations[ trans ]);
-                }
-            });
-        }
     </script>
 </body>
 </html>

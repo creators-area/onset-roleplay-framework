@@ -1,2 +1,1 @@
-local utils = ImportPackage( 'orf_utils' )
-MakeUI = function( web_file, size, extras ) return utils.makeNewInterface( GetPackageName(), web_file, size, extras ) end
+MakeUI = function( web_file, size, extras ) return ImportPackage( 'orf_utils' ).makeNewInterface( GetPackageName(), web_file, size, extras ) end

@@ -1,4 +1,5 @@
 local interfaces = {}
+local i18n = ImportPackage( 'i18n' )
 
 function makeNewInterface( package_name, web_file, size, extras )
 	extras = extras or {}
@@ -32,6 +33,7 @@ function makeNewInterface( package_name, web_file, size, extras )
 		size = size,
 		extras = extras,
 	}
+
 	return interface_id
 end
 AddFunctionExport( 'makeNewInterface', makeNewInterface )
@@ -39,12 +41,6 @@ AddFunctionExport( 'makeNewInterface', makeNewInterface )
 function toggleVisiblity( interface_id )
 	local interface = interfaces[ interface_id ]
 	if ( interface == nil ) then return end
-
-	if ( interface.extras.translation_prefix ~= nil and interface.extras.translation_prefix ~= '' and not interface.translation_sent ) then
-		local translations = get_translations_start_with( package_name, 'selection_' )
-		SendPayloadToWebJS( interface_id, 'onReceiveTranslations', translations )
-		interfaces[ interface_id ].translation_sent = true
-	end
 
 	local is_visible = GetWebVisibility( interface_id ) == 1
 
@@ -57,8 +53,21 @@ function toggleVisiblity( interface_id )
 end
 AddFunctionExport( 'toggleVisiblity', toggleVisiblity )
 
+AddEvent( 'OnWebLoadComplete', function( interface_id )
+	if ( interfaces[ interface_id ] and not interfaces[ interface_id ].id_sended ) then
+		SendPayloadToWebJS( interface_id, 'SaveUIIdentifier', interface_id )
+		interfaces[ interface_id ].id_sended = true
+	end
+end)
+
 -- Destroy all interfaces
 AddEvent( 'OnPackageStop', function() for i = 1, #interfaces do DestroyWebUI( interfaces[ i ] ) end end )
+
+-- Handle translations
+AddEvent( 'ORF.GetUITranslation', function( identifier, key )
+	local trans = i18n.t( interfaces[ math.tointeger( identifier ) ].package_name, key )
+	SendPayloadToWebJS( identifier, 'OnReceiveTranslations', key, trans )
+end)
 
 function encode_payload( mixed )
 	local payload = mixed
@@ -87,6 +96,6 @@ function SendPayloadToWebJS( web_ui, method, ... )
 	for i = 1, #args do
 		args[ i ] = '\'' .. encode_payload( args[ i ] ) .. '\''
 	end
-	ExecuteWebJS( web_ui, ( '%s( %s )' ):format( method, table.concat( args, ', ' ) ) )
+	ExecuteWebJS( web_ui, ( '%s( %s );' ):format( method, table.concat( args, ', ' ) ) )
 end
 AddFunctionExport( 'SendPayloadToWebJS', SendPayloadToWebJS )

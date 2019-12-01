@@ -7,8 +7,7 @@ AddEvent( 'OnPackageStart', function()
 		default_visibility = WEB_HIDDEN,
 		show_mouse_on_show = true,
 		input_mode_on_show = INPUT_UI,
-		input_mode_on_hide = INPUT_GAME,
-		translation_prefix = 'selection_'
+		input_mode_on_hide = INPUT_GAME
 	})
 end)
 
@@ -27,7 +26,6 @@ AddRemoteEvent( 'ORF.PlayerSelectionToggleVisiblity', toggle_ui_visiblity )
 AddEvent( 'ORF.PlayerSelectionToggleVisiblity', toggle_ui_visiblity )
 
 -- Html call/send events
-
 AddEvent( 'ORF.PlayerSelection:LeaveServer', function()
 	CallRemoteEvent( 'ORF.KickPlayer', 'You have successfully left the server.' )
 end )
