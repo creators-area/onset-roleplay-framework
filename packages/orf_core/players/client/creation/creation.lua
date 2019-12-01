@@ -12,13 +12,22 @@ AddEvent( 'OnPackageStart', function()
 end)
 
 local function toggle_ui_visiblity()
-	if ( not creation_ui ) then create_web_ui() end
-
 	local x, y, z = GetPlayerLocation(GetPlayerId())
 	SetCameraRotation( -18, 90, 0 )
 	SetCameraLocation( x + 80, y - 200, z + 60 )
 
 	utils.toggleVisiblity( creation_ui )
+
+	local customization = {
+		faces = ORF.Faces,
+		shirts = ORF.Shirts,
+		pants = ORF.Pants,
+		hairs = ORF.Hairs,
+		shoes = ORF.Shoes,
+		hair_color = ORF.HairsColor
+	}
+	utils.SendPayloadToWebJS( creation_ui, 'OnReceiveCustomization', customization )
+
 end
 AddEvent( 'ORF.PlayerCreationToggleVisiblity', toggle_ui_visiblity )
 

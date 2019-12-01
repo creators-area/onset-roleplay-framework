@@ -77,7 +77,7 @@ function BaseModel:DbSave( callback, ... )
 	end
 	local query = ( 'INSERT INTO `%s` ( %s ) VALUES ( %s )' ):format( self._table, table.concat( fields, ', ' ), table.concat( prepared_values, ', ' ) )
 	database.asyncQuery( query, values, function( results )
-		if ( type( callback ) == 'function' ) then callback( results, extras, table.unpack( vargs ) ) end
+		if ( type( callback ) == 'function' ) then callback( results, table.unpack( vargs ) ) end
 	end)
 end
 

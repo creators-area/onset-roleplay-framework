@@ -30,7 +30,7 @@
                     <div class="card" style="background-color: rgba(0,0,0,0.75);">
                         <div class="card-body">
                             <h4 id="test" class="card-title" data-trans="creator_title">CHARACTER CREATOR</h4>
-                            <h6 class="card-subtitle" data-trans="creator_subtitle">Make your own character.</h6>
+                            <h6 id="test" class="card-subtitle" data-trans="creator_subtitle">Make your own character.</h6>
 
                             <hr />
 
@@ -55,13 +55,7 @@
                                 <div class="col-sm-12">
                                     <h3 class="card-body__title" data-trans="creator_face">Face</h3>
                                     <div class="form-group">
-                                        <select id="face" class="select2" data-minimum-results-for-search="Infinity">
-                                            <option value="HZN_CH3D_Normal01_LPR">HZN_CH3D_Normal01_LPR</option>
-                                            <option value="HZN_CH3D_Normal02_LPR">HZN_CH3D_Normal02_LPR</option>
-                                            <option value="HZN_CH3D_Normal03_LPR">HZN_CH3D_Normal03_LPR</option>
-                                            <option value="HZN_CH3D_Normal04_LPR">HZN_CH3D_Normal04_LPR</option>
-                                            <option value="HZN_CH3D_Business_LPR">HZN_CH3D_Business_LPR</option>
-                                            <option value="HZN_CH3D_SpecialAgent_LPR">HZN_CH3D_SpecialAgent_LPR</option>
+                                        <select id="faces" class="select2" data-minimum-results-for-search="Infinity">
                                         </select>
                                     </div>
                                 </div>
@@ -71,22 +65,15 @@
                                 <div class="col-sm-8">
                                     <h3 class="card-body__title" data-trans="creator_hair_style">Hair style</h3>
                                     <div class="form-group">
-                                        <select id="hair" class="select2" data-minimum-results-for-search="Infinity">
-                                            <option>HZN_CH3D_Hair_Business_LP</option>
-                                            <option>HZN_CH3D_Hair_Scientist_LP</option>
-                                            <option>HZN_CH3D_Normal_Hair_01_LPR</option>
-                                            <option>HZN_CH3D_Police_Hair_LPR</option>
-                                            <option>HZN_CH3D_Normal_Hair_03_LPR</option>
-                                            <option>HZN_CH3D_Normal_Hair_02_LPR</option>
+                                        <select id="hairs" class="select2" data-minimum-results-for-search="Infinity">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <h3 class="card-body__title" data-trans="creator_hair_color">Color</h3>
-                                    <div class="form-group color-picker">
-                                        <input id="hair_color" type="text" class="form-control color-picker__value" value="#23120B">
-                                        <i class="color-picker__preview" style="background-color: #23120B"></i>
-                                        <i class="form-group__bar"></i>
+                                    <div class="form-group">
+                                        <select id="hair_color" class="select2" data-minimum-results-for-search="Infinity">
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -95,24 +82,7 @@
                                 <div class="col-sm-8">
                                     <h3 class="card-body__title" data-trans="creator_top_style">Top style</h3>
                                     <div class="form-group">
-                                        <select id="top" class="select2" data-minimum-results-for-search="Infinity">
-                                            <option>HZN_Outfit_Set_SpecialAgent_LPR</option>
-                                            <option>HZN_CH3D_Prisoner_LPR</option>
-                                            <option>HZN_Outfit_Knitted_Shirt_LPR</option>
-                                            <option>HZN_Outfit_Piece_FormalShirt_LPR</option>
-                                            <option>HZN_Outfit_Piece_FormalShirt2_LPR</option>
-                                            <option>HZN_Outfit_Piece_Labcoat_LPR</option>
-                                            <option>HZN_Outfit_Piece_Shirt_LPR</option>
-                                            <option>HZN_Outfit_Piece_TShirt_Knitted2_LPR</option>
-                                            <option>HZN_Outfit_Piece_TShirt_Knitted_LPR</option>
-                                            <option>HZN_Outfit_Piece_TShirt_LPR</option>
-                                            <option>HZN_Outfit_Police_Shirt-Long_LPR</option>
-                                            <option>HZN_Outfit_Police_Shirt-Short_LPR</option>
-                                            <option>HZN_Outfit_Set_Pimp_LPR</option>
-                                            <option>HZN_Outfit_Set_Pimp_Open_LPR</option>
-                                            <option>HZN_Outfit_Set_Police_LPR</option>
-                                            <option>HZN_Outfit_Set_Scientist_LPR</option>
-                                            <option>SK_Mafia</option>
+                                        <select id="shirts" class="select2" data-minimum-results-for-search="Infinity">
                                         </select>
                                     </div>
                                 </div>
@@ -125,35 +95,12 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <h3 class="card-body__title" data-trans="creator_jacket_style">Jacket style</h3>
-                                    <div class="form-group">
-                                        <select id="jacket" class="select2" data-minimum-results-for-search="Infinity">
-                                            <option>NONE</option>
-                                            <option>HZN_Outfit_Piece_FormalJacket_LPR</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <h3 class="card-body__title" data-trans="creator_jacket_color">Color</h3>
-                                    <div class="form-group color-picker">
-                                        <input type="text" class="form-control color-picker__value" value="#03A9F4">
-                                        <i class="color-picker__preview" style="background-color: #03A9F4"></i>
-                                        <i class="form-group__bar"></i>
-                                    </div>
-                                </div>
-                            </div>
                             
                             <div class="row">
                                 <div class="col-sm-8">
                                     <h3 class="card-body__title" data-trans="creator_pants_style">Pants style</h3>
                                     <div class="form-group">
                                         <select id="pants" class="select2" data-minimum-results-for-search="Infinity">
-                                            <option>HZN_Outfit_Piece_CargoPants_LPR</option>
-                                            <option>HZN_Outfit_Piece_DenimPants_LPR</option>
-                                            <option>HZN_Outfit_Piece_FormalPants_LPR</option>
                                         </select>
                                     </div>
                                 </div>
@@ -172,8 +119,6 @@
                                     <h3 class="card-body__title" data-trans="creator_shoes_style">Shoes</h3>
                                     <div class="form-group">
                                         <select id="shoes" class="select2" data-minimum-results-for-search="Infinity">
-                                            <option>HZN_Outfit_Piece_BusinessShoes_LPR</option>
-                                            <option>HZN_Outfit_Piece_NormalShoes_LPR</option>
                                         </select>
                                     </div>
                                 </div>
@@ -238,6 +183,33 @@
             function OnReceiveTranslations( key, translation ) {
                 for (const element of document.querySelectorAll(`[data-trans='${atob(key)}']`)) {
                     element.innerHTML = atob(translation)
+                }
+            }
+
+            function OnReceiveCustomization( customizations ) {
+                customizations = JSON.parse(atob(customizations));
+                for (const k in customizations.faces) {
+                    $('#faces').append(new Option(k, customizations.faces[k], false, false)).trigger('change');
+                }
+
+                for (const k in customizations.hairs) {
+                    $('#hairs').append(new Option(k, customizations.hairs[k], false, false)).trigger('change');
+                }
+
+                for (const k in customizations.hair_color) {
+                    $('#hair_color').append(new Option(k, customizations.hair_color[k], false, false)).trigger('change');
+                }
+
+                for (const k in customizations.shirts) {
+                    $('#shirts').append(new Option(k, customizations.shirts[k], false, false)).trigger('change');
+                }
+
+                for (const k in customizations.pants) {
+                    $('#pants').append(new Option(k, customizations.pants[k], false, false)).trigger('change');
+                }
+
+                for (const k in customizations.shoes) {
+                    $('#shoes').append(new Option(k, customizations.shoes[k], false, false)).trigger('change');
                 }
             }
 
