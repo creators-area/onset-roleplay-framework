@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `armor` FLOAT NOT NULL,
   `cash` INT(11) UNSIGNED NOT NULL,
   `bank_cash` INT(11) UNSIGNED NOT NULL,
+  `clothes` TEXT,
   `created_at` INT(10) UNSIGNED NOT NULL,
   `updated_at` INT(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),

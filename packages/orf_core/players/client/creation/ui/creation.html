@@ -29,7 +29,7 @@
 
                     <div class="card" style="background-color: rgba(0,0,0,0.75);">
                         <div class="card-body">
-                            <h4 id="test" class="card-title" data-trans="creator_title">CHARACTER CREATOR</h4>
+                            <h4 class="card-title" data-trans="creator_title">CHARACTER CREATOR</h4>
                             <h6 id="test" class="card-subtitle" data-trans="creator_subtitle">Make your own character.</h6>
 
                             <hr />
@@ -38,14 +38,14 @@
                                 <div class="col-sm-6">
                                     <h3 class="card-body__title" data-trans="creator_first_name">First name</h3>
                                     <div class="form-group">
-                                        <input type="text" class="form-control is-valid" placeholder="">
+                                        <input id="firstname" type="text" class="form-control is-invalid" placeholder="">
                                         <i class="form-group__bar"></i>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <h3 class="card-body__title" data-trans="creator_last_name">Last name</h3>
                                     <div class="form-group">
-                                        <input type="text" class="form-control is-invalid" placeholder="">
+                                        <input id="lastname" type="text" class="form-control is-invalid" placeholder="">
                                         <i class="form-group__bar"></i>
                                     </div>
                                 </div>
@@ -89,7 +89,7 @@
                                 <div class="col-sm-4">
                                     <h3 class="card-body__title" data-trans="creator_top_color">Color</h3>
                                     <div class="form-group color-picker">
-                                        <input id="top_color" type="text" class="form-control color-picker__value" value="#03A9F4">
+                                        <input id="shirt-color" type="text" class="form-control color-picker__value" value="#03A9F4">
                                         <i class="color-picker__preview" style="background-color: #03A9F4"></i>
                                         <i class="form-group__bar"></i>
                                     </div>
@@ -138,7 +138,7 @@
                                         <i class="zmdi zmdi-arrow-back"></i>
                                         <span data-trans="creator_back_to_selection">Back to character selection</span>
                                     </button>
-                                    <button class="btn btn-success btn--icon-text float-right">
+                                    <button id="confirm-character" class="btn btn-success btn--icon-text float-right">
                                         <i class="zmdi zmdi-check"></i>
                                         <span data-trans="creator_create_character">Create this character</span>
                                     </button>
@@ -171,6 +171,34 @@
             })(ue.game);
             CallEvent = ue.game.callevent;
 
+            function OnReceiveCustomization( customizations ) {
+                customizations = JSON.parse(atob(customizations));
+
+                for (const k in customizations.faces) {
+                    $('#faces').append(new Option(k, customizations.faces[k], false, false));
+                }
+
+                for (const k in customizations.hairs) {
+                    $('#hairs').append(new Option(k, customizations.hairs[k], false, false));
+                }
+
+                for (const k in customizations.hair_color) {
+                    $('#hair_color').append(new Option(k, k, false, false));
+                }
+
+                for (const k in customizations.shirts) {
+                    $('#shirts').append(new Option(k, customizations.shirts[k], false, false));
+                }
+
+                for (const k in customizations.pants) {
+                    $('#pants').append(new Option(k, customizations.pants[k], false, false));
+                }
+
+                for (const k in customizations.shoes) {
+                    $('#shoes').append(new Option(k, customizations.shoes[k], false, false));
+                }
+            }
+
             let ui_identifier = ''
             function SaveUIIdentifier( identifier ) {
                 ui_identifier = identifier
@@ -186,49 +214,20 @@
                 }
             }
 
-            function OnReceiveCustomization( customizations ) {
-                customizations = JSON.parse(atob(customizations));
-                for (const k in customizations.faces) {
-                    $('#faces').append(new Option(k, customizations.faces[k], false, false)).trigger('change');
-                }
-
-                for (const k in customizations.hairs) {
-                    $('#hairs').append(new Option(k, customizations.hairs[k], false, false)).trigger('change');
-                }
-
-                for (const k in customizations.hair_color) {
-                    $('#hair_color').append(new Option(k, customizations.hair_color[k], false, false)).trigger('change');
-                }
-
-                for (const k in customizations.shirts) {
-                    $('#shirts').append(new Option(k, customizations.shirts[k], false, false)).trigger('change');
-                }
-
-                for (const k in customizations.pants) {
-                    $('#pants').append(new Option(k, customizations.pants[k], false, false)).trigger('change');
-                }
-
-                for (const k in customizations.shoes) {
-                    $('#shoes').append(new Option(k, customizations.shoes[k], false, false)).trigger('change');
-                }
-            }
-
             $(window).on("load", function() {
-
                 function formatRGBA( rgba ) {
                     return rgba.substr(5).replace(')', '').split(',');
                 }
 
                 function changeClothes() {
-                    const face = $('#face').val();
-                    const hair = $('#hair').val();
-                    const hair_color = JSON.stringify(formatRGBA($('#hair_color').data('color')));
-                    const top = $('#top').val();
-                    const top_color = JSON.stringify(formatRGBA($('#top_color').data('color')));
+                    const faces = $('#faces').val();
+                    const hairs = $('#hairs').val();
+                    const hair_color = $('#hair_color').val();
+                    const shirts = $('#shirts').val();
+                    const shirt_color = JSON.stringify(formatRGBA($('#shirt-color').data('color')));
                     const pants = $('#pants').val();
                     const shoes = $('#shoes').val();
-                    const jacket = $('#jacket').val();
-                    CallEvent( 'ORF.Test', face, hair, hair_color, top, top_color, jacket, pants, shoes )
+                    CallEvent( 'ORF.ChangeClothes', faces, hairs, hair_color, shirts, shirt_color, pants, shoes )
                 }
 
                 $("select.select2").select2({
@@ -244,12 +243,46 @@
                 $('.select2').on('select2:select', (e) => {
                     changeClothes()
                 });
+
+                $('#firstname').on('input', function() {
+                    if($(this).val().length > 0) {
+                        $(this).removeClass('is-invalid').addClass('is-valid');
+                    } else {
+                        $(this).removeClass('is-valid').addClass('is-invalid');
+                    }
+                });
+
+                $('#lastname').on('input', function() {
+                    if($(this).val().length > 0) {
+                        $(this).removeClass('is-invalid').addClass('is-valid');
+                    } else {
+                        $(this).removeClass('is-valid').addClass('is-invalid');
+                    }
+                });
             });
 
             $(document).on('click', '#back-to-selection', () => {
                 CallEvent( 'ORF.BackToCharacterSelectionMenu' )
             });
 
+            $(document).on('click', '#confirm-character', () => {
+                let firstname = $('#firstname').val();
+                let lastname = $('#lastname').val();
+                if ( lastname.length == 0 || firstname.length == 0) {
+                    CallEvent('ORF.InvalidCharacterName')
+                    return
+                }
+
+                const faces = $('#faces').val();
+                const hairs = $('#hairs').val();
+                const hair_color = $('#hair_color').val();
+                const shirts = $('#shirts').val();
+                const shirt_color = JSON.stringify(formatRGBA($('#shirt-color').data('color')));
+                const pants = $('#pants').val();
+                const shoes = $('#shoes').val();
+                CallEvent('ORF.CreateCharacter', firstname, lastname, faces, hairs, hair_color, shirts, shirt_color, pants, shoes )
+                $('#confirm-character').addClass('disable')
+            });
         </script>
     </body>
 </html>

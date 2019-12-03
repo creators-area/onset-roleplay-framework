@@ -10,6 +10,7 @@
 		"core/server/account_manager.lua",
 
 		"boot/spawn.lua",
+		"players/server/creation.lua",
 
 		"interaction/server/door.lua",
 		"interaction/server/action.lua",

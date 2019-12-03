@@ -29,7 +29,7 @@ local function get_insertable_field( model )
 	for k, v in pairs( model._fields ) do
 		if ( ( v.insertable == nil or ( v.insertable ~= nil and v.insertable ) ) and ( v.is_sync == nil or ( v.is_sync ~= nil and v.is_sync ) ) ) then
 			table.insert( fields, v.field )
-			table.insert( values, model[ 'Get' .. k ]() )
+			table.insert( values, v.type == 'array' and utils.json_encode( model[ 'Get' .. k ]() ) or model[ 'Get' .. k ]() )
 		end
 	end
 	return fields, values

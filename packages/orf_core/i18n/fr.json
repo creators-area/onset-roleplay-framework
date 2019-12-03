@@ -26,5 +26,9 @@
     "creator_shoes_style": "Chaussures",
     "creator_shoes_color": "Couleur",
     "creator_back_to_selection": "Retour &agrave; l'&eacute;cran de selection",
-    "creator_create_character": "Cr&eacute;er mon personnage"
+    "creator_create_character": "Cr&eacute;er mon personnage",
+
+    "invalid_names": "Identit&eacute; invalide",
+    "should_fill_names": "Veuillez v&eacute;rifier votre nom et votre pr&eacute;nom",
+
 }
